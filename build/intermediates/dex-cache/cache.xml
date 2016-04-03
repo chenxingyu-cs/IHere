@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-23.2.1_1c630c7ca5ef46b12713e7ac3070268a46c05a75.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.2.1_726c7bd3f64219eac50b323e0a5db8dec84594d5.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/design/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-design-23.2.1_852f8a808acd706bf7f1108006d6da4faaee3361.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-23.2.1_61bea590acb21eefdcfd4126be19e18ec4e40f36.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.2.1_ba3d4bf5d34f078d73348502799ae60474061755.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.2.1_3b7a147e66862f47ee4b8c1e064994081fac7749.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.2.1/support-annotations-23.2.1.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/support-annotations-23.2.1_bca519776ce05fc909eb55710e71a81934405689.jar" />
+    </item>
+    <item
+        jar="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.1/jars/libs/internal_impl-23.2.1.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="/Users/xingyuchen/Documents/Projects/IHere/app/build/intermediates/pre-dexed/debug/internal_impl-23.2.1_688c601d0da39abaa0da11e4eabd7c3ff411d61c.jar" />
+    </item>
+
+</items>
