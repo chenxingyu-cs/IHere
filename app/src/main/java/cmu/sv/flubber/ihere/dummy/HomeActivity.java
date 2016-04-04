@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_discover) {
-            Intent intent = new Intent(this, DiscoverActivity.class);
+            Intent intent = new Intent(this, DiscoveryActivity.class);
             startActivity(intent);
 
 
