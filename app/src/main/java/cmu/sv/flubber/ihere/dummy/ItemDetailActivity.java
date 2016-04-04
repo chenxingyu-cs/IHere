@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere;
+package cmu.sv.flubber.ihere.dummy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import cmu.sv.flubber.ihere.R;
 
 /**
  * An activity representing a single Item detail screen. This

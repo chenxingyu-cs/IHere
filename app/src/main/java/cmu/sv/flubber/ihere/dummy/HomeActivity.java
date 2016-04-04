@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere;
+package cmu.sv.flubber.ihere.dummy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import cmu.sv.flubber.ihere.R;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,15 +83,25 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_discover) {
+            Intent intent = new Intent(this, DiscoverActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+
+            // Handle the camera action
+        } else if (id == R.id.nav_create) {
+            Intent intent = new Intent(this, CreateActivity.class);
+            startActivity(intent);
+
+
+        } else if (id == R.id.nav_history) {
             Intent intent = new Intent(this, ItemListActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_profile) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+
 
         } else if (id == R.id.nav_share) {
 

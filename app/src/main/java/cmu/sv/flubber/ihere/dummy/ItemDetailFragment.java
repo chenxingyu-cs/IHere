@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere;
+package cmu.sv.flubber.ihere.dummy;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cmu.sv.flubber.ihere.dummy.DummyContent;
+import cmu.sv.flubber.ihere.R;
 
 /**
  * A fragment representing a single Item detail screen.
