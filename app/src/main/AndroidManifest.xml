@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/logo_green"
+        android:icon="@mipmap/ic_launcher"
         android:label="iHere"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
