@@ -15,9 +15,10 @@
             android:icon="@drawable/history_menu"
             android:title="History" />
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/profile_menu"
-            android:title="Profile" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
     </group>
 
 
