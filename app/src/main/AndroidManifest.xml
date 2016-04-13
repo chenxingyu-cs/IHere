@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".dummy.HomeActivity"
+            android:name=".ui.HomeActivity"
             android:label="iHere"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -26,30 +26,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".dummy.LoginActivity"
+            android:name=".ui.LoginActivity"
             android:label="iHere"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".dummy.ItemListActivity"
+            android:name=".ui.ItemListActivity"
             android:label="@string/title_item_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".dummy.ItemDetailActivity"
+            android:name=".ui.ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".dummy.ItemListActivity"
+            android:parentActivityName=".ui.ItemListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".dummy.ItemListActivity" />
+                android:value=".ui.ItemListActivity" />
         </activity>
         <activity
-            android:name=".dummy.SignupActivity"
+            android:name=".ui.SignupActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".dummy.DiscoveryActivity"
+            android:name=".ui.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".dummy.CreateActivity"></activity>
+        <activity android:name=".ui.CreateActivity"></activity>
     </application>
 
 </manifest>

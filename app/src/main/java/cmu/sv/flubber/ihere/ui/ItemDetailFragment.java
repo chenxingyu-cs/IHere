@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere.dummy;
+package cmu.sv.flubber.ihere.ui;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
