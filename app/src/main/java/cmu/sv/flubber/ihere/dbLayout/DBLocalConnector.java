@@ -84,6 +84,7 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
 
 
 
+    //TODO
     @Override
     public String getUserEmail() {
         return null;
