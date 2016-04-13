@@ -23,6 +23,6 @@ public class IhereException extends Exception implements FixException{
 
     @Override
     public void fix() {
-        
+
     }
 }
