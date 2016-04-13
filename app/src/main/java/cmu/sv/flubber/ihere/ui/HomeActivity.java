@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(this, ItemListActivity.class);
+            Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_logout) {

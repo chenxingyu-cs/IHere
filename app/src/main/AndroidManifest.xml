@@ -30,17 +30,17 @@
             android:label="iHere"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.ItemListActivity"
+            android:name=".ui.HistoryActivity"
             android:label="@string/title_item_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.ItemDetailActivity"
+            android:name=".ui.ItagDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".ui.ItemListActivity"
+            android:parentActivityName=".ui.HistoryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ItemListActivity" />
+                android:value=".ui.HistoryActivity" />
         </activity>
         <activity
             android:name=".ui.SignupActivity"

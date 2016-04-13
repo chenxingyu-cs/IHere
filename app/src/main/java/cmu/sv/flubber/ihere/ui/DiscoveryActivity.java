@@ -82,7 +82,7 @@ public class DiscoveryActivity extends AppCompatActivity {
     }
 
     public void pinOnClick(View view) {
-        Intent intent = new Intent(this, ItemListActivity.class);
+        Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
     }
 
