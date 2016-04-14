@@ -23,5 +23,5 @@ public class RemoteComment {
 
     public  static void deleteComment(int commentId){}
 
-    
+
 }
