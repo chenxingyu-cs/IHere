@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere.remote;
+package cmu.sv.flubber.ihere.ws.remote;
 
 /**
  * Created by zhengyiwang on 4/13/16.

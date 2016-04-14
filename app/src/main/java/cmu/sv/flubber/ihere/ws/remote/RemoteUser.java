@@ -1,4 +1,4 @@
-package cmu.sv.flubber.ihere.remote;
+package cmu.sv.flubber.ihere.ws.remote;
 
 import java.util.ArrayList;
 
