@@ -53,9 +53,14 @@ public class DiscoveryActivity extends HomeActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        Intent intent = new Intent(this, PreviewActivity.class);
+        startActivity(intent);
+
+        /*
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(this)));
         startActivityForResult(i, CAMERA_OUTPUT);
+        */
     }
 
     private File getTempFile(Context context){

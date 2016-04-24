@@ -49,8 +49,13 @@
             android:name=".ui.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.CreateActivity"
+        <activity
+            android:name=".ui.CreateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.PreviewActivity"
+            android:label="@string/title_activity_preview"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
