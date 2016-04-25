@@ -30,16 +30,48 @@ public class RemoteUser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         User user = gson.fromJson(respond, new TypeToken<User>(){}.getType());
+        //TODO return user??
+
 
     }
 
-    public static void signupUser(String userName, String userEmail, String password){}
+    public static boolean signupUser(String userName, String userEmail, String password){
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("email", userEmail);
+        requestData.put("password", password);
+        requestData.put("userName" , userName);
+
+        final Gson gson = new Gson();
+
+        String respond = null;
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.CREATE_NEW_USER, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static void logoutUser(String userName){}
 
-    public static  ArrayList<ITag> getUserHistory(String userName){
-        return null;
+    public static  ArrayList<ITag> getUserHistory(int userId){
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("userId", String.valueOf(userId));
+
+        final Gson gson = new Gson();
+
+        String respond = null;
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.GET_USER_INFO, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<ITag> history= gson.fromJson(respond, new TypeToken<ArrayList<ITag>>(){}.getType());
+        return history;
     }
 
     public static void updateUserName(String userEmail, String newName){}
