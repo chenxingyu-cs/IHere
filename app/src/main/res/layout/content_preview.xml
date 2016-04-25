@@ -9,10 +9,14 @@
     tools:showIn="@layout/activity_preview">
 
     <SurfaceView
+
+
         android:id="@+id/preview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+
         />
+
 
 
     <TextView
@@ -24,6 +28,24 @@
         android:layout_marginEnd="53dp"
         android:layout_marginBottom="167dp"
         android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test1"
+        android:paddingTop="44dp"
+        android:paddingLeft="44dp"
+        android:textColor="#FFFFFF"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test2"
+        android:paddingTop="88dp"
+        android:paddingLeft="67dp"
+        android:textColor="#FFFFFF"
+        />
 
 
     <TextView

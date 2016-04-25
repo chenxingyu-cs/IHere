@@ -30,9 +30,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.adapter.DiscoverAdapter;
+import cmu.sv.flubber.ihere.entities.ITag;
 import cmu.sv.flubber.ihere.ws.local.LocationService;
 
 public class PreviewActivity extends AppCompatActivity
@@ -53,6 +56,11 @@ public class PreviewActivity extends AppCompatActivity
 
     TextView tvHeading;
     TextView tvLocation;
+    TextView tag1;
+    TextView tag2;
+    ArrayList<TextView > textlist ;
+
+    DiscoverAdapter discoverAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,28 @@ public class PreviewActivity extends AppCompatActivity
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         tvHeading = (TextView) findViewById(R.id.headingText);
         tvLocation = (TextView) findViewById(R.id.locationText);
+        tag1 = (TextView) findViewById(R.id.test1);
+        tag2 = (TextView) findViewById(R.id.test2);
+
+        textlist = new ArrayList<>();
+
+        textlist.add(tag1);
+
+        textlist.add(tag2);
+
+        ITag iTagone = new ITag("this is 1 ");
+        ITag iTagtwo = new ITag("this is 2 ");
+
+        //async task to get list of tags from server
+        //TODO
+
+        ArrayList<ITag>  tags = new ArrayList<>();
+        tags.add(iTagone);
+        tags.add(iTagtwo);
+
+        discoverAdapter = new DiscoverAdapter(textlist, tags);
+
+
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -107,6 +137,8 @@ public class PreviewActivity extends AppCompatActivity
     public void onSnapClick(View v) {
         // TODO: click button to send location
         //mCamera.takePicture(this, null, null, this);
+
+        discoverAdapter.show();
         Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
     }
 
