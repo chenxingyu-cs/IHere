@@ -32,7 +32,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
 
     public void show(){
         TextView view;
-        int numbersNeeded = 2;
+        int numbersNeeded = iTagList.size();
 
         Random rng = new Random(); // Ideally just create one instance globally
 // Note: use LinkedHashSet to maintain insertion order

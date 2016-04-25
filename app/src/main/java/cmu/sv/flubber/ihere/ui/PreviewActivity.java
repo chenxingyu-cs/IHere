@@ -59,7 +59,7 @@ public class PreviewActivity extends AppCompatActivity
     TextView tag1;
     TextView tag2;
     ArrayList<TextView > textlist ;
-
+    ArrayList<ITag>  tags;
     DiscoverAdapter discoverAdapter;
 
     @Override
@@ -90,7 +90,7 @@ public class PreviewActivity extends AppCompatActivity
         //async task to get list of tags from server
         //TODO
 
-        ArrayList<ITag>  tags = new ArrayList<>();
+        tags = new ArrayList<>();
         tags.add(iTagone);
         tags.add(iTagtwo);
 
@@ -137,7 +137,7 @@ public class PreviewActivity extends AppCompatActivity
     public void onSnapClick(View v) {
         // TODO: click button to send location
         //mCamera.takePicture(this, null, null, this);
-
+        //tag1.setText("ttttt");
         discoverAdapter.show();
         Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
     }
