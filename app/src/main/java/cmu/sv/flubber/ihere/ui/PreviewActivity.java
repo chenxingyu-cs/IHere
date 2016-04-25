@@ -105,21 +105,20 @@ public class PreviewActivity extends AppCompatActivity
     }
 
     public void onSnapClick(View v) {
+        // TODO: click button to send location
         //mCamera.takePicture(this, null, null, this);
         Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
-        Intent locationServiceIntent = new Intent(this, LocationService.class);
-        startService(locationServiceIntent);
-        stopService(locationServiceIntent);
     }
 
     @Override
     public void onShutter() {
-        // TODO: click button to send location
-        Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
+        // MEI SHA YONG
+        //Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
+        // MEI SHA YONG
         //Here, we chose internal storage
         try {
             FileOutputStream out = openFileOutput("picture.jpg", Activity.MODE_PRIVATE);
