@@ -85,7 +85,7 @@ public class PreviewActivity extends AppCompatActivity
 
         */
 
-
+        //get the list of textview
         int start = R.id.test1;
         int end = R.id.test3;
 
@@ -102,8 +102,11 @@ public class PreviewActivity extends AppCompatActivity
         iTagArrayList = new ArrayList<>();
         iTagArrayList.add(new ITag("this is the only one"));
 
+        //TODO get list of itag from server
         //iTagArrayList = RemoteItag.discoverItags("100", "100","100");
 
+
+        //use adapter for dispay
         discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
 
 

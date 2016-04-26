@@ -31,32 +31,32 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
 
 
     public void show(){
-        TextView view;
-        int numbersNeeded = iTagList.size();
 
-        Random rng = new Random(); // Ideally just create one instance globally
-// Note: use LinkedHashSet to maintain insertion order
-        Set<Integer> generated = new LinkedHashSet<Integer>();
-
+        //clear all text view
         for(TextView v : textlist){
             v.setText("");
         }
 
+
+
+
+        //get a random list positions for diaplay
+        int numbersNeeded = iTagList.size();
+
+        Random rng = new Random(); // Ideally just create one instance globally
+        Set<Integer> generated = new LinkedHashSet<Integer>();
+
         while (generated.size() < numbersNeeded)
         {
             Integer next = rng.nextInt(textlist.size());
-            // As we're adding to a set, this will automatically do a containment check
             generated.add(next);
         }
 
-        //Integer [] positions = new Integer[]{};
-        //positions = (Integer []) generated.toArray();
+        //display the itag
+        TextView view;
         int i =0;
         for (int index : generated) {
-
-
             view = textlist.get(index);
-
             view.setText(iTagList.get( i++).getContent());
         }
 
