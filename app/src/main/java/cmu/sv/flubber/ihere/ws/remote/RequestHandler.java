@@ -48,6 +48,7 @@ public class RequestHandler {
             URL url = new URL(request);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             if(connection.getResponseCode() != 200) {
+
                 throw new IOException(connection.getResponseMessage());
             }
 

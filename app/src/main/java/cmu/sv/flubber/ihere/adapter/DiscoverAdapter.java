@@ -37,6 +37,11 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         Random rng = new Random(); // Ideally just create one instance globally
 // Note: use LinkedHashSet to maintain insertion order
         Set<Integer> generated = new LinkedHashSet<Integer>();
+
+        for(TextView v : textlist){
+            v.setText("");
+        }
+
         while (generated.size() < numbersNeeded)
         {
             Integer next = rng.nextInt(textlist.size());
@@ -49,8 +54,6 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         int i =0;
         for (int index : generated) {
 
-            view = textlist.get(0);
-            view.setText(iTagList.get(0).getContent());
 
             view = textlist.get(index);
 

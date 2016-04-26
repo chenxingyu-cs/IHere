@@ -102,4 +102,8 @@ public class RemoteItag {
         return true;
     }
 
+    public static void main(String[] arg) {
+        ArrayList<ITag> itags = discoverItags("100","100","100");
+
+    }
 }
