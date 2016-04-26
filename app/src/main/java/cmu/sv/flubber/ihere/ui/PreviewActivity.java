@@ -69,47 +69,7 @@ public class PreviewActivity extends AppCompatActivity
         tvHeading = (TextView) findViewById(R.id.headingText);
         tvLocation = (TextView) findViewById(R.id.locationText);
 
-
-        viewArrayList = new ArrayList<>();
-        /*
-        tag1 = (TextView) findViewById(R.id.test1);
-        tag2 = (TextView) findViewById(R.id.test2);
-        tag3 = (TextView) findViewById(R.id.test3);
-
-
-        viewArrayList.add(tag1);
-
-        viewArrayList.add(tag2);
-
-        viewArrayList.add(tag3);
-
-        */
-
-        //get the list of textview
-        int start = R.id.test1;
-        int end = R.id.test3;
-
-        for(int i = start; i <= end; i++){
-            viewArrayList.add((TextView) findViewById(i));
-
-        }
-
-
-
-
-        //async task to get list of iTagArrayList from server
-        //TODO
-        iTagArrayList = new ArrayList<>();
-        iTagArrayList.add(new ITag("this is the only one"));
-
-        //TODO get list of itag from server
-        //iTagArrayList = RemoteItag.discoverItags("100", "100","100");
-
-
-        //use adapter for dispay
-        discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
-
-
+        initAdapter();
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -261,5 +221,47 @@ public class PreviewActivity extends AppCompatActivity
         }
     };
 
+
+
+    private void initAdapter(){
+        viewArrayList = new ArrayList<>();
+        /*
+        tag1 = (TextView) findViewById(R.id.test1);
+        tag2 = (TextView) findViewById(R.id.test2);
+        tag3 = (TextView) findViewById(R.id.test3);
+
+
+        viewArrayList.add(tag1);
+
+        viewArrayList.add(tag2);
+
+        viewArrayList.add(tag3);
+
+        */
+
+        //get the list of textview
+        int start = R.id.test1;
+        int end = R.id.test3;
+
+        for(int i = start; i <= end; i++){
+            viewArrayList.add((TextView) findViewById(i));
+
+        }
+
+
+
+
+        //async task to get list of iTagArrayList from server
+        //TODO
+        iTagArrayList = new ArrayList<>();
+        iTagArrayList.add(new ITag("this is the only one"));
+
+        //TODO get list of itag from server
+        //iTagArrayList = RemoteItag.discoverItags("100", "100","100");
+
+
+        //use adapter for dispay
+        discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
+    }
 
 }
