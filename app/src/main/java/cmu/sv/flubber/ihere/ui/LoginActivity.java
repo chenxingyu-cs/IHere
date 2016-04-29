@@ -2,6 +2,7 @@ package cmu.sv.flubber.ihere.ui;
 
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,10 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URI;
+
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.User;
+import cmu.sv.flubber.ihere.view.UserInputView;
+import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UserInputView {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -25,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,23 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private class LoginTask extends AsyncTask<String, Integer, User> {
+        protected User doInBackground(String... strings) {
+            User user = RemoteUser.loginUser(strings[0], strings[1]);
+            return user;
+        }
+
+
+
+        protected void onPostExecute(User user) {
+            if(user == null || user.getUserName() == null)
+                onLoginFailed();
+            else
+                onLoginSuccess();
+            progressDialog.dismiss();
+        }
+    }
+
     public void login() {
         Log.d(TAG, "Login");
 
@@ -66,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -74,17 +99,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        new LoginTask().execute(email, password);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+
     }
 
 
@@ -92,9 +109,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
+
+
                 this.finish();
             }
         }

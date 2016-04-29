@@ -17,7 +17,7 @@ public class RemoteUser {
     /*
     This class is used to interact with server
     */
-    public static void loginUser(String userEmail, String password) {
+    public static User loginUser(String userEmail, String password) {
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("email", userEmail);
         requestData.put("password", password);
@@ -34,6 +34,7 @@ public class RemoteUser {
 
         User user = gson.fromJson(respond, new TypeToken<User>(){}.getType());
         //TODO return user??
+        return user;
 
 
     }
@@ -77,8 +78,8 @@ public class RemoteUser {
     public static void updateUserName(String userEmail, String newName){}
 
     public static void main (String [] arg){
-        loginUser("1", "1234");
-
+        User i = loginUser("100", "1234");
+        System.out.print("  v");
     }
 
 
