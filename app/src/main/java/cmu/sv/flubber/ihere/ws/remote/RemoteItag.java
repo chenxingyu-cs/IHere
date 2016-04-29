@@ -16,9 +16,25 @@ public class RemoteItag {
     /*
     This class is used to interact with server to get update itag data
      */
-    public static void createItag(ITag iTag){}
+    public static boolean createItag(ITag iTag){
+        final Gson gson = new Gson();
+        String s = gson.toJson(iTag);
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("itag", s);
 
-    public static ArrayList<ITag> discoverItags(long longitude, long latitude, long direction) throws IOException {
+        String respond = null;
+
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.CREATE_NEW_ITAG, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+    }
+
+    public static ArrayList<ITag> discoverItags(String longitude, String latitude, String  direction)  {
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("longitude", String.valueOf(longitude));
         requestData.put("latitude", String.valueOf(latitude));
@@ -26,7 +42,12 @@ public class RemoteItag {
 
         final Gson gson = new Gson();
 
-        String respond = RequestHandler.getRequest(RequestHandler.DISCOVER_ITAGS_AROUND, requestData);
+        String respond = null;
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.DISCOVER_ITAGS_AROUND, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         ArrayList<ITag> iTagList = gson.fromJson(respond, new TypeToken<ArrayList<ITag>>(){}.getType());
@@ -34,12 +55,55 @@ public class RemoteItag {
         return iTagList;
     }
 
-    public static ArrayList<Comment>  getCommentsToItag(int itagId){
-        return null;
+    public static ArrayList<Comment>  getCommentsToItag(int iTagId){
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("iTagId", String.valueOf(iTagId));
+
+        String respond = null;
+        final Gson gson = new Gson();
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.GET_ALL_COMMENT_BY_ITAG_ID, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Comment> allComments = gson.fromJson(respond, new TypeToken<ArrayList<Comment>>(){}.getType());
+
+        return allComments;
     }
 
-    public static void updateItag(ITag iTag){}
+    public static boolean updateItag(int iTagId , String content){
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("iTagId", String.valueOf(iTagId));
+        requestData.put("content", content);
+        String respond = null;
 
-    public static void deleteItag(int iTagId){}
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.UPDATE_ITAG_INFO, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
+    public static boolean deleteItag(int iTagId){
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("iTagId", String.valueOf(iTagId));
+
+        String respond = null;
+
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.CREATE_NEW_ITAG, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] arg) {
+        ArrayList<ITag> itags = discoverItags("100","100","100");
+
+    }
 }

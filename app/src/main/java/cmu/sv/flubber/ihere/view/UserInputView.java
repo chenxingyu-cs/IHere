@@ -8,5 +8,5 @@ public interface UserInputView {
     this iterface is for activitys with userinput
      */
 
-    void checkUserInput(String input);
+    boolean validate ();
 }

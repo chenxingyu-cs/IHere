@@ -10,11 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
 public class CreateActivity extends HomeActivity {
+
+
+    EditText editText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +53,19 @@ public class CreateActivity extends HomeActivity {
         CharSequence text = "The tag has been created!";
         int duration = Toast.LENGTH_SHORT;
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        //Toast toast = Toast.makeText(context, text, duration);
+        //toast.show();
+
+        editText = (EditText)findViewById(R.id.create_tag);
+
+        //TODO get localtion data, async task?
+        //need to have a location service
+        /*
+        ITag itag = new ITag(editText.text)
+
+        RemoteItag.createItag(itag);
+        */
+
 
         Intent intent = new Intent(this, ItagDetailActivity.class);
         startActivity(intent);

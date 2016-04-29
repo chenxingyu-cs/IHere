@@ -28,6 +28,10 @@ public class ITag {
         this.comments = comments;
     }
 
+    public ITag(String content){
+        this.content =  content;
+
+    }
     public int getUserId() {
         return userId;
     }

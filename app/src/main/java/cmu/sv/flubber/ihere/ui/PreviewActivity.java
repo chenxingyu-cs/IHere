@@ -1,9 +1,6 @@
 package cmu.sv.flubber.ihere.ui;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,16 +10,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +22,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cmu.sv.flubber.ihere.R;
-import cmu.sv.flubber.ihere.ws.local.LocationService;
+import cmu.sv.flubber.ihere.adapter.DiscoverAdapter;
+import cmu.sv.flubber.ihere.entities.ITag;
 
 public class PreviewActivity extends AppCompatActivity
         implements SurfaceHolder.Callback, Camera.ShutterCallback, Camera.PictureCallback, SensorEventListener {
@@ -53,6 +47,13 @@ public class PreviewActivity extends AppCompatActivity
 
     TextView tvHeading;
     TextView tvLocation;
+    TextView tag1;
+    TextView tag2;
+    TextView tag3;
+    ArrayList<TextView > viewArrayList;
+    ArrayList<ITag> iTagArrayList;
+    DiscoverAdapter discoverAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class PreviewActivity extends AppCompatActivity
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         tvHeading = (TextView) findViewById(R.id.headingText);
         tvLocation = (TextView) findViewById(R.id.locationText);
+
+        initAdapter();
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -107,6 +110,8 @@ public class PreviewActivity extends AppCompatActivity
     public void onSnapClick(View v) {
         // TODO: click button to send location
         //mCamera.takePicture(this, null, null, this);
+
+        discoverAdapter.show();
         Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
     }
 
@@ -216,5 +221,47 @@ public class PreviewActivity extends AppCompatActivity
         }
     };
 
+
+
+    private void initAdapter(){
+        viewArrayList = new ArrayList<>();
+        /*
+        tag1 = (TextView) findViewById(R.id.test1);
+        tag2 = (TextView) findViewById(R.id.test2);
+        tag3 = (TextView) findViewById(R.id.test3);
+
+
+        viewArrayList.add(tag1);
+
+        viewArrayList.add(tag2);
+
+        viewArrayList.add(tag3);
+
+        */
+
+        //get the list of textview
+        int start = R.id.test1;
+        int end = R.id.test3;
+
+        for(int i = start; i <= end; i++){
+            viewArrayList.add((TextView) findViewById(i));
+
+        }
+
+
+
+
+        //async task to get list of iTagArrayList from server
+        //TODO
+        iTagArrayList = new ArrayList<>();
+        iTagArrayList.add(new ITag("this is the only one"));
+
+        //TODO get list of itag from server
+        //iTagArrayList = RemoteItag.discoverItags("100", "100","100");
+
+
+        //use adapter for dispay
+        discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
+    }
 
 }
