@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
             if(user == null || user.getUserName() == null)
                 onLoginFailed();
             else
-                onLoginSuccess();
+                onLoginSuccess(user);
             progressDialog.dismiss();
         }
     }
@@ -121,9 +121,11 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
+    public void onLoginSuccess(User u) {
         _loginButton.setEnabled(true);
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("UserName", u.getUserName());
+        
         startActivity(intent);
 //        finish();
     }
