@@ -70,8 +70,6 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
             return user;
         }
 
-
-
         protected void onPostExecute(User user) {
             if(user == null || user.getUserName() == null)
                 onLoginFailed();
@@ -131,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Email or Password not correct!", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
