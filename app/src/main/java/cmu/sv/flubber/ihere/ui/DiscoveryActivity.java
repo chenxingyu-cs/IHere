@@ -1,123 +1,259 @@
 package cmu.sv.flubber.ihere.ui;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.net.Uri;
+import android.app.Activity;
+import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.adapter.DiscoverAdapter;
+import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
-public class DiscoveryActivity extends HomeActivity {
+public class DiscoveryActivity extends AppCompatActivity
+        implements SurfaceHolder.Callback, Camera.ShutterCallback, Camera.PictureCallback, SensorEventListener {
 
-    final static int CAMERA_OUTPUT = 0;
-    ImageView imv;
+    Camera mCamera;
+    SurfaceView mPreview;
+    LocationManager mLocationManager;
+    // device sensor manager
+    private SensorManager mSensorManager;
+
+
+    // TODO: The data we need
+    String latitude;
+    String longitude;
+    float currentDegree;
+
+
+    TextView tvHeading;
+    TextView tvLocation;
+    TextView tag1;
+    TextView tag2;
+    TextView tag3;
+    ArrayList<TextView > viewArrayList;
+    ArrayList<ITag> iTagArrayList;
+    DiscoverAdapter discoverAdapter;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_discovery);
+        setContentView(R.layout.activity_discover);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DiscoveryActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
+        mPreview = (SurfaceView)findViewById(R.id.preview);
+        mPreview.getHolder().addCallback(this);
+        mPreview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        mCamera = Camera.open();
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        tvHeading = (TextView) findViewById(R.id.headingText);
+        tvLocation = (TextView) findViewById(R.id.locationText);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        new DiscoverTask().execute("100","100","100");
 
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (loc == null)
+            loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (loc != null) {
+            latitude = String.valueOf(loc.getLatitude());
+            longitude = String.valueOf(loc.getLongitude());
+            String text  = "latitude: " + latitude + "\nlongitude: " + longitude;
+            tvLocation.setText(text);
         }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                0, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                0, mLocationListener);
 
-        Intent intent = new Intent(this, PreviewActivity.class);
-        startActivity(intent);
-
-        /*
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(this)));
-        startActivityForResult(i, CAMERA_OUTPUT);
-        */
     }
 
-    private File getTempFile(Context context){
-        final File path = new File( Environment.getExternalStorageDirectory(), context.getPackageName() );
-        if(!path.exists()){
-            path.mkdir();
-        }
-        return new File(path, "image.tmp");
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCamera.stopPreview();
+
+        mSensorManager.unregisterListener(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCamera.release();
+        Log.d("CAMERA","Destroy");
+    }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case CAMERA_OUTPUT:
-                    final File file = getTempFile(this);
-                    try {
-                        Bitmap captureBmp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
-                        if (captureBmp.getWidth() > captureBmp.getHeight()) {
-                            // create a matrix object
-                            Matrix matrix = new Matrix();
-                            matrix.postRotate(90);
-                            captureBmp = Bitmap.createBitmap(captureBmp , 0, 0, captureBmp .getWidth(), captureBmp .getHeight(), matrix, true);
-                        }
-                        imv = (ImageView) findViewById(R.id.discover_img);
-                        imv.setImageBitmap(captureBmp);
-                        // do whatever you want with the bitmap (Resize, Rename, Add To Gallery, etc)
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-            }
+    public void onCancelClick(View v) {
+        finish();
+    }
+
+    public void onSnapClick(View v) {
+        // TODO: click button to send location
+        //mCamera.takePicture(this, null, null, this);
+
+        discoverAdapter.show();
+        Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onShutter() {
+        // MEI SHA YONG
+        //Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+        // MEI SHA YONG
+        //Here, we chose internal storage
+        try {
+            FileOutputStream out = openFileOutput("picture.jpg", Activity.MODE_PRIVATE);
+            out.write(data);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        camera.startPreview();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Camera.Parameters params = mCamera.getParameters();
+        List<Camera.Size> sizes = params.getSupportedPreviewSizes();
+        Camera.Size selected = sizes.get(0);
+        params.setPreviewSize(selected.width,selected.height);
+        mCamera.setParameters(params);
+
+        mCamera.setDisplayOrientation(90);
+        mCamera.startPreview();
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        try {
+            mCamera.setPreviewDisplay(mPreview.getHolder());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void pinOnClick(View view) {
-        Intent intent = new Intent(this, HistoryActivity.class);
-        startActivity(intent);
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.i("PREVIEW","surfaceDestroyed");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // for the system's orientation sensor registered listeners
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_GAME);
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            navigateUpTo(new Intent(this, HomeActivity.class));
-            return true;
+    public void onSensorChanged(SensorEvent event) {
+
+        // get the angle around the z-axis rotated
+        currentDegree = Math.round(event.values[0]);
+
+        tvHeading.setText("\n\nHeading: " + Float.toString(currentDegree) + " degrees");
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // not in use
+    }
+
+
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            latitude = String.valueOf(location.getLatitude());
+            longitude = String.valueOf(location.getLongitude());
+            Toast.makeText(DiscoveryActivity.this, "onLocationChanged",
+                    Toast.LENGTH_SHORT).show();
+            String text  = "latitude: " + latitude + "\nlongitude: " + longitude;
+            tvLocation.setText(text);
         }
-        return super.onOptionsItemSelected(item);
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Toast.makeText(DiscoveryActivity.this, provider + "'s status changed to "+status +"!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " enabled!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " disabled!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private class DiscoverTask extends AsyncTask< String, Integer, ArrayList<ITag>> {
+        protected ArrayList<ITag> doInBackground(String... location) {
+
+            //TODO pass in location
+            iTagArrayList = RemoteItag.discoverItags("100", "100", "100");
+            return iTagArrayList;
+        }
+
+        protected void onPostExecute(ArrayList<ITag> iTagArrayListag) {
+            if(iTagArrayListag == null || iTagArrayListag.size() == 0)
+                ;
+
+            else
+                //use adapter for dispay
+                initAdapter();
+                discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
+
+        }
+    }
+
+    private void initAdapter(){
+        viewArrayList = new ArrayList<>();
+        int start = R.id.test1;
+        int end = R.id.test3;
+
+        for(int i = start; i <= end; i++){
+            viewArrayList.add((TextView) findViewById(i));
+
+        }
+
+
     }
 
 }
