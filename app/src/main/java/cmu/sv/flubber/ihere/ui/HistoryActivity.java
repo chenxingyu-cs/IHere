@@ -2,11 +2,12 @@ package cmu.sv.flubber.ihere.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
 import java.util.List;
 
@@ -51,7 +54,12 @@ public class HistoryActivity extends HomeActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int userid = settings.getInt("userid", -1);
+        List<ITag> lists = RemoteItag.getAllItagsByUserId(userid);
+        for (ITag tag : lists) {
+            HistoryContent.addItem(tag);
+        }
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
@@ -71,15 +79,15 @@ public class HistoryActivity extends HomeActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(HistoryContent.ITEMS));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<ITag> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<ITag> items) {
             mValues = items;
         }
 
@@ -93,15 +101,15 @@ public class HistoryActivity extends HomeActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(Integer.toString(mValues.get(position).getiTagId()));
+            holder.mContentView.setText(mValues.get(position).getContent());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItagDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(ItagDetailFragment.ARG_ITEM_ID, String.valueOf(holder.mItem.getUserId()));
                         ItagDetailFragment fragment = new ItagDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -110,7 +118,7 @@ public class HistoryActivity extends HomeActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItagDetailActivity.class);
-                        intent.putExtra(ItagDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ItagDetailFragment.ARG_ITEM_ID, holder.mItem.getUserId());
 
                         context.startActivity(intent);
                     }
@@ -127,7 +135,7 @@ public class HistoryActivity extends HomeActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public ITag mItem;
 
             public ViewHolder(View view) {
                 super(view);
