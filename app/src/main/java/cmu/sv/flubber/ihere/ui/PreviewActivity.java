@@ -92,7 +92,7 @@ public class PreviewActivity extends AppCompatActivity
     public void onPause() {
         super.onPause();
         mCamera.stopPreview();
-
+        mLocationManager.removeUpdates(mLocationListener);
         mSensorManager.unregisterListener(this);
     }
 
