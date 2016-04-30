@@ -2,6 +2,7 @@ package cmu.sv.flubber.ihere.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.User;
+import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -22,6 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _signupButton;
     private TextView _loginLink;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,24 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+
+
+    private class SignupTask extends AsyncTask<String, Integer, User> {
+        protected User doInBackground(String... strings) {
+            User user = RemoteUser.signupUser(strings[0], strings[1], strings[2]);
+            return user;
+        }
+
+        protected void onPostExecute(User user) {
+            if(user == null || user.getUserName() == null)
+                onSignupFailed();
+            else
+                onSignupSuccess(user);
+            progressDialog.dismiss();
+        }
+    }
+
+
     public void signup() {
         Log.d(TAG, "Signup");
 
@@ -60,7 +82,7 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
+        progressDialog = new ProgressDialog(SignupActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -69,31 +91,22 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        new SignupTask().execute(name, email,password);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
 
-    public void onSignupSuccess() {
+    public void onSignupSuccess(User user) {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("UserName", user.getUserName());
         startActivity(intent);
 //        finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Signup failed please try again", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }

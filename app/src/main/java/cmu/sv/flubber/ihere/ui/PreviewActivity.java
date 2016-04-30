@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ import java.util.List;
 import cmu.sv.flubber.ihere.R;
 import cmu.sv.flubber.ihere.adapter.DiscoverAdapter;
 import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
 public class PreviewActivity extends AppCompatActivity
         implements SurfaceHolder.Callback, Camera.ShutterCallback, Camera.PictureCallback, SensorEventListener {
@@ -69,7 +71,7 @@ public class PreviewActivity extends AppCompatActivity
         tvHeading = (TextView) findViewById(R.id.headingText);
         tvLocation = (TextView) findViewById(R.id.locationText);
 
-        initAdapter();
+        new DiscoverTask().execute("100","100","100");
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -221,25 +223,28 @@ public class PreviewActivity extends AppCompatActivity
         }
     };
 
+    private class DiscoverTask extends AsyncTask< String, Integer, ArrayList<ITag>> {
+        protected ArrayList<ITag> doInBackground(String... location) {
 
+            //TODO pass in location
+            iTagArrayList = RemoteItag.discoverItags("100", "100", "100");
+            return iTagArrayList;
+        }
+
+        protected void onPostExecute(ArrayList<ITag> iTagArrayListag) {
+            if(iTagArrayListag == null || iTagArrayListag.size() == 0)
+                ;
+
+            else
+                //use adapter for dispay
+                initAdapter();
+                discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
+
+        }
+    }
 
     private void initAdapter(){
         viewArrayList = new ArrayList<>();
-        /*
-        tag1 = (TextView) findViewById(R.id.test1);
-        tag2 = (TextView) findViewById(R.id.test2);
-        tag3 = (TextView) findViewById(R.id.test3);
-
-
-        viewArrayList.add(tag1);
-
-        viewArrayList.add(tag2);
-
-        viewArrayList.add(tag3);
-
-        */
-
-        //get the list of textview
         int start = R.id.test1;
         int end = R.id.test3;
 
@@ -249,19 +254,6 @@ public class PreviewActivity extends AppCompatActivity
         }
 
 
-
-
-        //async task to get list of iTagArrayList from server
-        //TODO
-        iTagArrayList = new ArrayList<>();
-        iTagArrayList.add(new ITag("this is the only one"));
-
-        //TODO get list of itag from server
-        //iTagArrayList = RemoteItag.discoverItags("100", "100","100");
-
-
-        //use adapter for dispay
-        discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
     }
 
 }

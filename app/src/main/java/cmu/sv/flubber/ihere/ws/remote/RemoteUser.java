@@ -33,13 +33,12 @@ public class RemoteUser {
 
 
         User user = gson.fromJson(respond, new TypeToken<User>(){}.getType());
-        //TODO return user??
         return user;
 
 
     }
 
-    public static boolean signupUser(String userName, String userEmail, String password){
+    public static User signupUser(String userName, String userEmail, String password){
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("email", userEmail);
         requestData.put("password", password);
@@ -52,9 +51,9 @@ public class RemoteUser {
             respond = RequestHandler.getRequest(RequestHandler.CREATE_NEW_USER, requestData);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return gson.fromJson(respond,new TypeToken<User>(){}.getType() );
     }
 
     public static void logoutUser(String userName){}
@@ -78,7 +77,7 @@ public class RemoteUser {
     public static void updateUserName(String userEmail, String newName){}
 
     public static void main (String [] arg){
-        User i = loginUser("100", "1234");
+        User i = signupUser("aa","100", "1234");
         System.out.print("  v");
     }
 
