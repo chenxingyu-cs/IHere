@@ -94,7 +94,7 @@
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Snap Photo"
+            android:text="Discover"
             android:onClick="onSnapClick"
             />
     </RelativeLayout>

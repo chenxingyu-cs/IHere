@@ -41,7 +41,6 @@ public class DiscoveryActivity extends AppCompatActivity
     private SensorManager mSensorManager;
 
 
-    // TODO: The data we need
     String latitude;
     String longitude;
     float currentDegree;
@@ -49,9 +48,6 @@ public class DiscoveryActivity extends AppCompatActivity
 
     TextView tvHeading;
     TextView tvLocation;
-    TextView tag1;
-    TextView tag2;
-    TextView tag3;
     ArrayList<TextView > viewArrayList;
     ArrayList<ITag> iTagArrayList;
     DiscoverAdapter discoverAdapter;
@@ -71,7 +67,6 @@ public class DiscoveryActivity extends AppCompatActivity
         tvHeading = (TextView) findViewById(R.id.headingText);
         tvLocation = (TextView) findViewById(R.id.locationText);
 
-        new DiscoverTask().execute("100","100","100");
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -88,6 +83,8 @@ public class DiscoveryActivity extends AppCompatActivity
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
                 0, mLocationListener);
 
+        //TODO need to test real time location
+        new DiscoverTask().execute("100","100","100");
     }
 
     @Override
@@ -114,7 +111,7 @@ public class DiscoveryActivity extends AppCompatActivity
         //mCamera.takePicture(this, null, null, this);
 
         discoverAdapter.show();
-        Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Discovering...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -198,8 +195,8 @@ public class DiscoveryActivity extends AppCompatActivity
         public void onLocationChanged(final Location location) {
             latitude = String.valueOf(location.getLatitude());
             longitude = String.valueOf(location.getLongitude());
-            Toast.makeText(DiscoveryActivity.this, "onLocationChanged",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DiscoveryActivity.this, "onLocationChanged",
+              //      Toast.LENGTH_SHORT).show();
             String text  = "latitude: " + latitude + "\nlongitude: " + longitude;
             tvLocation.setText(text);
         }
@@ -226,8 +223,7 @@ public class DiscoveryActivity extends AppCompatActivity
     private class DiscoverTask extends AsyncTask< String, Integer, ArrayList<ITag>> {
         protected ArrayList<ITag> doInBackground(String... location) {
 
-            //TODO pass in location
-            iTagArrayList = RemoteItag.discoverItags("100", "100", "100");
+            iTagArrayList = RemoteItag.discoverItags(location[0], location[1], location[2]);
             return iTagArrayList;
         }
 
