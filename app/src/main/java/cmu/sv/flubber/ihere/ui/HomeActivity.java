@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import cmu.sv.flubber.ihere.R;
 import cmu.sv.flubber.ihere.dbLayout.DBLocalConnector;
@@ -20,6 +23,7 @@ public class HomeActivity extends AppCompatActivity
     protected  void superOnCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,37 @@ public class HomeActivity extends AppCompatActivity
 
 
         DBLocalConnector dbLocalConnector = new DBLocalConnector(HomeActivity.this);
-        String a = dbLocalConnector.getUserName();
-        dbLocalConnector.setUserName("testname");
+        //dbLocalConnector.init();
+
+        //Show user name on menu header
+        String name;
+
+        Intent intent = getIntent();
+        name  = intent.getStringExtra("UserName");
+
+        if(name == null){
+            name = dbLocalConnector.getUserName();
+            if(name.equals("")){
+                Intent intent1 = new Intent(this,LoginActivity.class);
+                startActivity(intent1);
+            }
+        }
+
+
+        View head = navigationView.getHeaderView(0);
+
+        TextView username = (TextView) head.findViewById(R.id.userNameInHeader);
+        username.setText("Hello, " + name);
+
+
+
+
+
+    }
+
+
+    public void updateUserName(){
+
     }
 
     @Override
