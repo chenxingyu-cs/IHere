@@ -1,8 +1,11 @@
 package cmu.sv.flubber.ihere.dbLayout;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.SQLException;
 
@@ -14,20 +17,18 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
         private static final String TAG = "DatabaseConnector";
 
         // database info
-        public static final String DATABASE_NAME = "StudentRecord";
+        public static final String DATABASE_NAME = "USERINFO";
         private SQLiteDatabase database; // database object
         private DatabaseOpenHelper databaseOpenHelper; // database helper
 
         // table names
-        public static final String STU_QUIZ_TABLE = "studentQuizes";
+        public static final String TABLE_NAME = "user";
 
         // studentQuizes columns
-        public static final String KEY_STU_ID = "stuId";
-        public static final String KEY_Q1_SCORE = "q1";
-        public static final String KEY_Q2_SCORE = "q2";
-        public static final String KEY_Q3_SCORE = "q3";
-        public static final String KEY_Q4_SCORE = "q4";
-        public static final String KEY_Q5_SCORE = "q5";
+        public static final String KEY_USER_ID = "id";
+        public static final String KEY_USER_NAME = "name";
+        public static final String KEY_USER_EMAIL = "email";
+        public static final String KEY_USER_PASSWORD = "password";
 
         // public constructor for DatabaseConnector
         public DBLocalConnector(Context context)
@@ -68,11 +69,13 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
                 // query to create a new table named contacts
                 String createQuery = String.format("CREATE TABLE %s " +
                                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                " %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER);",
-                        STU_QUIZ_TABLE, KEY_STU_ID, KEY_Q1_SCORE, KEY_Q2_SCORE,
-                        KEY_Q3_SCORE, KEY_Q4_SCORE, KEY_Q5_SCORE);
+                                " %s INTEGER, %s TEXT, %s CHAR(50), %s CHAR(8));", TABLE_NAME, KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD );
 
                 db.execSQL(createQuery); // execute the query
+                ContentValues cv = new ContentValues();
+                cv.put(KEY_USER_NAME, "");
+                cv.put(KEY_USER_EMAIL, "");
+                cv.put(KEY_USER_PASSWORD, "");
             } // end method onCreate
 
             @Override
@@ -87,26 +90,121 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
     //TODO
     @Override
     public String getUserEmail() {
-        return null;
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String USER_EMAIL_QUERY = String.format("SELECT %s FROM %s WHERE id = 1", KEY_USER_EMAIL, TABLE_NAME);
+
+        String email = "";
+        Cursor cursor = database.rawQuery(USER_EMAIL_QUERY, null);
+        try {
+                cursor.moveToFirst();
+                email = cursor.getString(cursor.getColumnIndex(KEY_USER_EMAIL));
+                System.out.println("getting from db email = " + email);
+             }
+        catch (Exception e){
+            Log.e(TAG, "exception while retriveing data in the db");
+            e.printStackTrace();
+        }
+        cursor.close();
+        return email;
+
     }
 
     @Override
     public String getUserName() {
-        return null;
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String USER_NAME_QUERY = String.format("SELECT %s FROM %s WHERE id = 1", KEY_USER_NAME, TABLE_NAME);
+
+        String name = "";
+        Cursor cursor = database.rawQuery(USER_NAME_QUERY, null);
+        try {
+            cursor.moveToFirst();
+            name = cursor.getString(cursor.getColumnIndex(KEY_USER_NAME));
+            System.out.println("getting from db email = " + name);
+        }
+        catch (Exception e){
+            Log.e(TAG, "exception while retriveing data in the db");
+            e.printStackTrace();
+        }
+        cursor.close();
+        return name;
+    }
+
+    @Override
+    public String getUserPassword() {
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String USER_PASSWORD_QUERY = String.format("SELECT %s FROM %s WHERE id = 1", KEY_USER_PASSWORD, TABLE_NAME);
+
+        String password = "";
+        Cursor cursor = database.rawQuery(USER_PASSWORD_QUERY, null);
+        try {
+            cursor.moveToFirst();
+            password = cursor.getString(cursor.getColumnIndex(KEY_USER_PASSWORD));
+            System.out.println("getting from db email = " + password);
+        }
+        catch (Exception e){
+            Log.e(TAG, "exception while retriveing data in the db");
+            e.printStackTrace();
+        }
+        cursor.close();
+        return password;
     }
 
     @Override
     public void setUserName(String name) {
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_USER_NAME,name);
+
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        database.update(TABLE_NAME, cv, "id = 1", null);
+        close();
 
     }
+
 
     @Override
     public void setUserEmail(String email) {
 
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_USER_EMAIL, email);
+
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        database.update(TABLE_NAME, cv, "id = 1", null);
+        close();
+
     }
 
     @Override
-    public void updateuserEmail(String email) {
+    public void setUserPassword(String password) {
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_USER_PASSWORD, password);
+
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        database.update(TABLE_NAME, cv, "id = 1", null);
+        close();
 
     }
 }

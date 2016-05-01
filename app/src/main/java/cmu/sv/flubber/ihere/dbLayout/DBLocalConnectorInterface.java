@@ -13,11 +13,13 @@ public interface DBLocalConnectorInterface {
 
     String getUserName();
 
+    String getUserPassword();
+
     void setUserName(String name);
 
     void setUserEmail(String email);
 
-    void updateuserEmail(String email);
+    void setUserPassword(String email);
 
 
 }
