@@ -2,7 +2,10 @@ package cmu.sv.flubber.ihere.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -20,8 +23,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteComment;
+import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
 /**
  * An activity representing a single Item detail screen. This
@@ -66,17 +77,33 @@ public class ItagDetailActivity extends HomeActivity {
         }
 
         int itagid = getIntent().getExtras().getInt(ItagDetailFragment.ARG_ITEM_ID);
-        String sitagid = String.valueOf(itagid);
-        mItem = HistoryContent.ITEM_MAP.get(sitagid);
-        if (mItem != null) {
-            ((TextView) findViewById(R.id.detail_content)).setText(mItem.getContent().toString());
-            String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
-            ((TextView) findViewById(R.id.detail_location)).setText(loc);
-
-            // Date on the top
-            ((TextView) findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
+        try {
+            new DetailTask().execute(String.valueOf(itagid)).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    private class DetailTask extends AsyncTask<String, Integer, ITag> {
+        protected ITag doInBackground(String... strings) {
+            return RemoteItag.getITagById(Integer.parseInt(strings[0]));
+        }
+
+        protected void onPostExecute(ITag res) {
+            mItem = res;
+            if (mItem != null) {
+                ((TextView) findViewById(R.id.detail_content)).setText(mItem.getContent().toString());
+                String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
+                ((TextView) findViewById(R.id.detail_location)).setText(loc);
+
+                // Date on the top
+                if (mItem.getDate() != null)
+                    ((TextView) findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
+            }
+        }
     }
 
 
@@ -97,6 +124,7 @@ public class ItagDetailActivity extends HomeActivity {
                 // TODO: add comment here
                 m_Text = input.getText().toString();
                 Toast.makeText(getBaseContext(), m_Text, Toast.LENGTH_LONG).show();
+                new CommentTask().execute(m_Text);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -107,6 +135,26 @@ public class ItagDetailActivity extends HomeActivity {
         });
 
         builder.show();
+    }
+
+    private class CommentTask extends AsyncTask<String, Integer, Boolean> {
+        protected Boolean doInBackground(String... strings) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int userid = settings.getInt("userid", -1);
+            Calendar calander = Calendar.getInstance();
+            Date date = calander.getTime();
+            Comment c = new Comment(mItem.getiTagId(), userid, mItem.getUserId(), strings[0], date);
+            return RemoteComment.addComment(c);
+        }
+
+        protected void onPostExecute(Boolean res) {
+            if (res) {
+                Toast.makeText(getBaseContext(), "Comment success!", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getBaseContext(), "Comment Failed!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

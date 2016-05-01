@@ -27,6 +27,7 @@ public class RequestHandler {
     public static final int CREATE_NEW_COMMENT = 10;
     public static final int UPDATE_COMMENT_INFO = 11;
     public static final int DELETE_COMMENT = 12;
+    public static final int GET_ITAG_BY_ID = 13;
 
 
 
@@ -45,7 +46,7 @@ public class RequestHandler {
 
         StringBuilder result = new StringBuilder();
         try {
-            URL url = new URL(request);
+            URL url = new URL(request.replace(" ", "%20"));
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             if(connection.getResponseCode() != 200) {
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -17,7 +18,7 @@ public class RemoteItag {
     This class is used to interact with server to get update itag data
      */
     public static boolean createItag(ITag iTag){
-        final Gson gson = new Gson();
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         String s = gson.toJson(iTag);
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("itag", s);
@@ -40,7 +41,7 @@ public class RemoteItag {
         requestData.put("latitude", String.valueOf(latitude));
         requestData.put("direction", String.valueOf(direction));
 
-        final Gson gson = new Gson();
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
         String respond = null;
         try {
@@ -59,7 +60,7 @@ public class RemoteItag {
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("userId", String.valueOf(userid));
 
-        final Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
         String respond = null;
         try {
@@ -73,13 +74,31 @@ public class RemoteItag {
         return iTagList;
     }
 
+    public static ITag getITagById(int itagId)  {
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("iTagId", String.valueOf(itagId));
+
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+        String respond = null;
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.GET_ITAG_BY_ID, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ITag tag = gson.fromJson(respond, new TypeToken<ITag>(){}.getType());
+
+        return tag;
+    }
+
 
     public static ArrayList<Comment>  getCommentsToItag(int iTagId){
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("iTagId", String.valueOf(iTagId));
 
         String respond = null;
-        final Gson gson = new Gson();
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         try {
             respond = RequestHandler.getRequest(RequestHandler.GET_ALL_COMMENT_BY_ITAG_ID, requestData);
         } catch (IOException e) {

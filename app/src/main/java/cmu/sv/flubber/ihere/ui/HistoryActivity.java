@@ -3,6 +3,7 @@ package cmu.sv.flubber.ihere.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -20,11 +21,14 @@ import android.widget.TextView;
 import cmu.sv.flubber.ihere.R;
 import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
+import cmu.sv.flubber.ihere.entities.User;
 import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
+import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * An activity representing a list of Items. This activity
@@ -56,24 +60,6 @@ public class HistoryActivity extends HomeActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        /*
-        // For real use
-        // TODO: Switch to this one when server is ready!!!!!!!!!!
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int userid = settings.getInt("userid", -1);
-        List<ITag> lists = RemoteItag.getAllItagsByUserId(userid);
-        for (ITag tag : lists) {
-            HistoryContent.addItem(tag);
-        }
-
-         */
-
-        /* For test use
-
-         */
-        for (int i = 0; i < 10; i++){
-            HistoryContent.addItem(createDummyItem(i));
-        }
 
 
         View recyclerView = findViewById(R.id.item_list);
@@ -91,6 +77,35 @@ public class HistoryActivity extends HomeActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // For real use
+        // TODO: Switch to this one when server is ready!!!!!!!!!!
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int userid = settings.getInt("userid", -1);
+        try {
+            new HistoryTask().execute(String.valueOf(userid)).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class HistoryTask extends AsyncTask<String, Integer, List<ITag>> {
+        protected List<ITag> doInBackground(String... strings) {
+            List<ITag> lists = RemoteItag.getAllItagsByUserId(Integer.parseInt(strings[0]));
+            return lists;
+        }
+
+        protected void onPostExecute(List<ITag> lists) {
+            HistoryContent.clear();
+            if(lists != null) {
+                for (ITag tag : lists) {
+                    HistoryContent.addItem(tag);
+                }
+            }
+        }
     }
 
     private static ITag createDummyItem(int position) {

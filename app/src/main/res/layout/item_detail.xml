@@ -1,9 +1,77 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_detail"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     android:textIsSelectable="true"
-    tools:context=".ui.ItagDetailFragment" />
+    tools:context=".ui.ItagDetailFragment">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:id="@+id/detail_top"
+android:paddingTop="60dp"
+android:paddingRight="10dp"
+android:text="detail of the tag"/>
+
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:id="@+id/detail_content"/>
+</TableRow>
+
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:id="@+id/detail_location"/>
+</TableRow>
+
+
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:text="comment1"/>
+
+</TableRow>
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:text="comment1"/>
+
+</TableRow>
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:text="comment1"/>
+
+</TableRow>
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+    <TextView
+        android:text="comment1"/>
+
+</TableRow>
+
+
+</TableLayout>
+
+    </LinearLayout>
