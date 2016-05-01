@@ -27,7 +27,7 @@ public interface DBLocalConnectorInterface {
 
     void setUserPassword(String email);
 
-    void setUser(int id, String name, String email, String password);
+    void setUser(int id, String name, String email);
 }
 
 

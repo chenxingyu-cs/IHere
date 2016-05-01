@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.net.URI;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.dbLayout.DBLocalConnector;
 import cmu.sv.flubber.ihere.entities.User;
 import cmu.sv.flubber.ihere.view.UserInputView;
 import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
     private class LoginTask extends AsyncTask<String, Integer, User> {
         protected User doInBackground(String... strings) {
             User user = RemoteUser.loginUser(strings[0], strings[1]);
+            updateUserInLocalDB(user);
             return user;
         }
 
@@ -77,6 +79,11 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
                 onLoginSuccess(user);
             progressDialog.dismiss();
         }
+    }
+
+    public void updateUserInLocalDB(User user){
+        DBLocalConnector dbLocalConnector = new DBLocalConnector(this);
+        dbLocalConnector.setUser(user.getUserId(),user.getUserName(),user.getEmail());
     }
 
     public void login() {

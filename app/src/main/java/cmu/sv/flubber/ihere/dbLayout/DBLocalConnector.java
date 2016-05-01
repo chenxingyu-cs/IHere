@@ -265,11 +265,11 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
 
 
     @Override
-    public void setUser(int userid, String name, String email, String password) {
+    public void setUser(int userid, String name, String email) {
         setUserId(userid);
         setUserName(name);
         setUserEmail(email);
-        setUserPassword(password);
+        //setUserPassword(password);
     }
 
 

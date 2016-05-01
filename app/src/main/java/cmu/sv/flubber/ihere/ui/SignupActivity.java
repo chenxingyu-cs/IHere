@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.dbLayout.DBLocalConnector;
 import cmu.sv.flubber.ihere.entities.User;
 import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
 
@@ -59,6 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     private class SignupTask extends AsyncTask<String, Integer, User> {
         protected User doInBackground(String... strings) {
             User user = RemoteUser.signupUser(strings[0], strings[1], strings[2]);
+            updateUserInLocalDB(user);
             return user;
         }
 
@@ -69,6 +71,11 @@ public class SignupActivity extends AppCompatActivity {
                 onSignupSuccess(user);
             progressDialog.dismiss();
         }
+    }
+
+    public void updateUserInLocalDB(User user){
+        DBLocalConnector dbLocalConnector = new DBLocalConnector(this);
+        dbLocalConnector.setUser(user.getUserId(),user.getUserName(),user.getEmail());
     }
 
 
