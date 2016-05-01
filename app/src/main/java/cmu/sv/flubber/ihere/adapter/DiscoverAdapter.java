@@ -58,6 +58,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         for (int index : generated) {
             view = textlist.get(index);
             view.setText(iTagList.get( i++).getContent());
+            final TextView finalview = view;
+            view.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    finalview.setTextColor(99999);
+                }
+            });
         }
 
     }

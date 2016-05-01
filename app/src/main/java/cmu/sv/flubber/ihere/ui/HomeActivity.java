@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         DBLocalConnector dbLocalConnector = new DBLocalConnector(HomeActivity.this);
-        dbLocalConnector.init();
+        //dbLocalConnector.init();
 
         //Show user name on menu header
         String name;
