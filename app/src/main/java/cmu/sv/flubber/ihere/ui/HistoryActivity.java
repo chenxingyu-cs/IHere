@@ -18,9 +18,12 @@ import android.widget.TextView;
 
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
 import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,13 +56,25 @@ public class HistoryActivity extends HomeActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        /*
+        // For real use
+        // TODO: Switch to this one when server is ready!!!!!!!!!!
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int userid = settings.getInt("userid", -1);
         List<ITag> lists = RemoteItag.getAllItagsByUserId(userid);
         for (ITag tag : lists) {
             HistoryContent.addItem(tag);
         }
+
+         */
+
+        /* For test use
+
+         */
+        for (int i = 0; i < 10; i++){
+            HistoryContent.addItem(createDummyItem(i));
+        }
+
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
@@ -76,6 +91,12 @@ public class HistoryActivity extends HomeActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private static ITag createDummyItem(int position) {
+        ITag tag = new ITag(1,"Content", 12, Calendar.getInstance().getTime(), 21, new ArrayList<Comment>());
+        tag.setiTagId(position);
+        return tag;
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -109,7 +130,7 @@ public class HistoryActivity extends HomeActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItagDetailFragment.ARG_ITEM_ID, String.valueOf(holder.mItem.getUserId()));
+                        arguments.putString(ItagDetailFragment.ARG_ITEM_ID, String.valueOf(holder.mItem.getiTagId()));
                         ItagDetailFragment fragment = new ItagDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -118,7 +139,7 @@ public class HistoryActivity extends HomeActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItagDetailActivity.class);
-                        intent.putExtra(ItagDetailFragment.ARG_ITEM_ID, holder.mItem.getUserId());
+                        intent.putExtra(ItagDetailFragment.ARG_ITEM_ID, holder.mItem.getiTagId());
 
                         context.startActivity(intent);
                     }

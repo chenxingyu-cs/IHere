@@ -63,6 +63,10 @@ public class ItagDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.getComments().toString());
+            ((TextView) rootView.findViewById(R.id.detail_content)).setText(mItem.getContent().toString());
+            String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
+            ((TextView) rootView.findViewById(R.id.detail_location)).setText(loc);
+            ((TextView) rootView.findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
         }
 
         return rootView;
