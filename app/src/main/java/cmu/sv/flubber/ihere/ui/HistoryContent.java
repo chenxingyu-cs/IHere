@@ -36,6 +36,11 @@ public class HistoryContent {
         ITEM_MAP.put(String.valueOf(item.getiTagId()), item);
     }
 
+    public static void clear() {
+        ITEMS.clear();
+        ITEM_MAP.clear();
+    }
+
     private static ITag createDummyItem(int position) {
         ITag tag = new ITag(1,"Content", 12, Calendar.getInstance().getTime(), 21, new ArrayList<Comment>());
         tag.setiTagId(position);

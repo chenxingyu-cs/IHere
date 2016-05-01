@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class RequestHandler {
 
-    private static final String SERVER = "http://ec2-54-84-210-68.compute-1.amazonaws.com:8080";
+    private static final String SERVER = "http://172.29.93.165:8080";
     public static final int GET_USER_INFO = 1;
     public static final int  CREATE_NEW_USER = 2;
     public static final int UPDATE_USER_INFO = 3;
@@ -27,6 +27,7 @@ public class RequestHandler {
     public static final int CREATE_NEW_COMMENT = 10;
     public static final int UPDATE_COMMENT_INFO = 11;
     public static final int DELETE_COMMENT = 12;
+    public static final int GET_ITAG_BY_ID = 13;
 
 
 
@@ -45,7 +46,7 @@ public class RequestHandler {
 
         StringBuilder result = new StringBuilder();
         try {
-            URL url = new URL(request);
+            URL url = new URL(request.replace(" ", "%20"));
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             if(connection.getResponseCode() != 200) {
 
