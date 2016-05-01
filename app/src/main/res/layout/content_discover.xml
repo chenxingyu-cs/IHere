@@ -88,6 +88,8 @@
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
             android:onClick="onCancelClick"
             />
         <Button
@@ -95,6 +97,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="Discover"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
             android:onClick="onSnapClick"
             />
     </RelativeLayout>

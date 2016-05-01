@@ -1,9 +1,11 @@
 package cmu.sv.flubber.ihere.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -13,7 +15,7 @@ import java.util.Random;
 import java.util.Set;
 
 import cmu.sv.flubber.ihere.entities.ITag;
-
+import cmu.sv.flubber.ihere.ui.DiscoveryActivity;
 
 
 /**
@@ -62,7 +64,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    finalview.setTextColor(99999);
+                    finalview.setTextColor(Color.GREEN);
+                    //Toast.makeText(DiscoveryActivity.this, "Discovering...", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
