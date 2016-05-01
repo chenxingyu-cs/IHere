@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.dbLayout.DBLocalConnector;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -19,6 +23,7 @@ public class HomeActivity extends AppCompatActivity
     protected  void superOnCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,41 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        DBLocalConnector dbLocalConnector = new DBLocalConnector(HomeActivity.this);
+        dbLocalConnector.init();
+
+        //Show user name on menu header
+        String name;
+
+        Intent intent = getIntent();
+        name  = intent.getStringExtra("UserName");
+
+        //check local db if there are existing user
+        if(name == null){
+            name = dbLocalConnector.getUserName();
+            if(name.equals("")){
+                Intent intent1 = new Intent(this,LoginActivity.class);
+                startActivity(intent1);
+            }
+        }
+
+
+        View head = navigationView.getHeaderView(0);
+
+        TextView username = (TextView) head.findViewById(R.id.userNameInHeader);
+        username.setText("Hello, " + name);
+
+
+
+
+
+    }
+
+
+    public void updateUserName(){
+
     }
 
     @Override
@@ -57,11 +97,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
+    //TODO display name of the user
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle login view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_discover) {
