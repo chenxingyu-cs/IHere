@@ -2,8 +2,10 @@ package cmu.sv.flubber.ihere.ui;
 
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -132,6 +134,10 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
         _loginButton.setEnabled(true);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("UserName", u.getUserName());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("userid", u.getUserId());
+        editor.commit();
         
         startActivity(intent);
 //        finish();

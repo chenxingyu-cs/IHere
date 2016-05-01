@@ -55,6 +55,25 @@ public class RemoteItag {
         return iTagList;
     }
 
+    public static ArrayList<ITag> getAllItagsByUserId(int userid)  {
+        HashMap<String, String> requestData  = new HashMap<>();
+        requestData.put("userId", String.valueOf(userid));
+
+        final Gson gson = new Gson();
+
+        String respond = null;
+        try {
+            respond = RequestHandler.getRequest(RequestHandler.GET_ALL_ITAGS_BY_USER_ID, requestData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<ITag> iTagList = gson.fromJson(respond, new TypeToken<ArrayList<ITag>>(){}.getType());
+
+        return iTagList;
+    }
+
+
     public static ArrayList<Comment>  getCommentsToItag(int iTagId){
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("iTagId", String.valueOf(iTagId));
