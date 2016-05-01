@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.dbLayout.DBLocalConnector;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +38,11 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        DBLocalConnector dbLocalConnector = new DBLocalConnector(HomeActivity.this);
+        String a = dbLocalConnector.getUserName();
+        dbLocalConnector.setUserName("testname");
     }
 
     @Override

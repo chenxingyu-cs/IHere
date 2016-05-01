@@ -9,82 +9,76 @@ import android.util.Log;
 
 import java.sql.SQLException;
 
+import cmu.sv.flubber.ihere.entities.User;
+
 /**
  * Created by zhengyiwang on 4/13/16.
  */
 public class DBLocalConnector implements DBLocalConnectorInterface {
-        // tag
-        private static final String TAG = "DatabaseConnector";
+    // tag
+    private static final String TAG = "DatabaseConnector";
 
-        // database info
-        public static final String DATABASE_NAME = "USERINFO";
-        private SQLiteDatabase database; // database object
-        private DatabaseOpenHelper databaseOpenHelper; // database helper
+    // database info
+    public static final String DATABASE_NAME = "USERINFO";
+    private SQLiteDatabase database; // database object
+    private DatabaseOpenHelper databaseOpenHelper; // database helper
 
-        // table names
-        public static final String TABLE_NAME = "user";
+    // table names
+    public static final String TABLE_NAME = "user";
 
-        // studentQuizes columns
-        public static final String KEY_USER_ID = "id";
-        public static final String KEY_USER_NAME = "name";
-        public static final String KEY_USER_EMAIL = "email";
-        public static final String KEY_USER_PASSWORD = "password";
+    // studentQuizes columns
+    public static final String KEY_USER_ID = "id";
+    public static final String KEY_USER_NAME = "name";
+    public static final String KEY_USER_EMAIL = "email";
+    public static final String KEY_USER_PASSWORD = "password";
 
-        // public constructor for DatabaseConnector
-        public DBLocalConnector(Context context)
-        {
-            // create a new DatabaseOpenHelper
-            databaseOpenHelper =
-                    new DatabaseOpenHelper(context, DATABASE_NAME, null, 1);
-        } // end DatabaseConnector constructor
+    // public constructor for DatabaseConnector
+    public DBLocalConnector(Context context) {
+        // create a new DatabaseOpenHelper
+        databaseOpenHelper =
+                new DatabaseOpenHelper(context, DATABASE_NAME, null, 1);
+    } // end DatabaseConnector constructor
 
-        // open the database connection
-        public void open() throws SQLException
-        {
-            // create or open a database for reading/writing
-            database = databaseOpenHelper.getWritableDatabase();
-        } // end method open
+    // open the database connection
+    public void open() throws SQLException {
+        // create or open a database for reading/writing
+        database = databaseOpenHelper.getWritableDatabase();
+    } // end method open
 
-        // close the database connection
-        public void close()
-        {
-            if (database != null)
-                database.close(); // close the database connection
-        } // end method close
+    // close the database connection
+    public void close() {
+        if (database != null)
+            database.close(); // close the database connection
+    } // end method close
 
 
-        private class DatabaseOpenHelper extends SQLiteOpenHelper
-        {
-            // public constructor
-            public DatabaseOpenHelper(Context context, String name,
-                                      SQLiteDatabase.CursorFactory factory, int version)
-            {
-                super(context, name, factory, version);
-            } // end DatabaseOpenHelper constructor
+    private class DatabaseOpenHelper extends SQLiteOpenHelper {
+        // public constructor
+        public DatabaseOpenHelper(Context context, String name,
+                                  SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        } // end DatabaseOpenHelper constructor
 
-            // creates the contacts table when the database is created
-            @Override
-            public void onCreate(SQLiteDatabase db)
-            {
-                // query to create a new table named contacts
-                String createQuery = String.format("CREATE TABLE %s " +
-                                "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                " %s INTEGER, %s TEXT, %s CHAR(50), %s CHAR(8));", TABLE_NAME, KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD );
+        // creates the contacts table when the database is created
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            // query to create a new table named contacts
+            String createQuery = String.format("CREATE TABLE %s " +
+                    "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " %s INTEGER, %s TEXT, %s CHAR(50), %s CHAR(8));", TABLE_NAME, KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD);
 
-                db.execSQL(createQuery); // execute the query
-                ContentValues cv = new ContentValues();
-                cv.put(KEY_USER_NAME, "");
-                cv.put(KEY_USER_EMAIL, "");
-                cv.put(KEY_USER_PASSWORD, "");
-            } // end method onCreate
+            db.execSQL(createQuery); // execute the query
+            ContentValues cv = new ContentValues();
+            cv.put(KEY_USER_NAME, "");
+            cv.put(KEY_USER_EMAIL, "");
+            cv.put(KEY_USER_PASSWORD, "");
+        } // end method onCreate
 
-            @Override
-            public void onUpgrade(SQLiteDatabase db, int oldVersion,
-                                  int newVersion)
-            {
-            } // end method onUpgrade
-        } // end class DatabaseOpenHelper
-
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion,
+                              int newVersion) {
+        } // end method onUpgrade
+    } // end class DatabaseOpenHelper
 
 
     //TODO
@@ -100,11 +94,10 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
         String email = "";
         Cursor cursor = database.rawQuery(USER_EMAIL_QUERY, null);
         try {
-                cursor.moveToFirst();
-                email = cursor.getString(cursor.getColumnIndex(KEY_USER_EMAIL));
-                System.out.println("getting from db email = " + email);
-             }
-        catch (Exception e){
+            cursor.moveToFirst();
+            email = cursor.getString(cursor.getColumnIndex(KEY_USER_EMAIL));
+            System.out.println("getting from db email = " + email);
+        } catch (Exception e) {
             Log.e(TAG, "exception while retriveing data in the db");
             e.printStackTrace();
         }
@@ -128,8 +121,7 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
             cursor.moveToFirst();
             name = cursor.getString(cursor.getColumnIndex(KEY_USER_NAME));
             System.out.println("getting from db email = " + name);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "exception while retriveing data in the db");
             e.printStackTrace();
         }
@@ -152,8 +144,7 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
             cursor.moveToFirst();
             password = cursor.getString(cursor.getColumnIndex(KEY_USER_PASSWORD));
             System.out.println("getting from db email = " + password);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "exception while retriveing data in the db");
             e.printStackTrace();
         }
@@ -164,7 +155,7 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
     @Override
     public void setUserName(String name) {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_USER_NAME,name);
+        cv.put(KEY_USER_NAME, name);
 
         try {
             open();
@@ -207,4 +198,14 @@ public class DBLocalConnector implements DBLocalConnectorInterface {
         close();
 
     }
+
+
+    @Override
+    public void setUser(String name, String email, String password) {
+        setUserName(name);
+        setUserEmail(email);
+        setUserPassword(password);
+    }
+
+
 }
