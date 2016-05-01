@@ -46,7 +46,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         Random rng = new Random(); // Ideally just create one instance globally
         Set<Integer> generated = new LinkedHashSet<Integer>();
 
-        while (generated.size() < numbersNeeded)
+        while (generated.size() < numbersNeeded && generated.size() < textlist.size())
         {
             Integer next = rng.nextInt(textlist.size());
             generated.add(next);
