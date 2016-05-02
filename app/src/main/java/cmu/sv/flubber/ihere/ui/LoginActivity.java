@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
         }
 
         protected void onPostExecute(User user) {
-            if(user == null || user.getUserName() == null)
+            if(user == null || user.getUserId() == 0)
                 onLoginFailed();
             else
                 onLoginSuccess(user);
@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements UserInputView {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("userid", u.getUserId());
+        editor.putString("username", u.getUserName());
         editor.commit();
         
         startActivity(intent);

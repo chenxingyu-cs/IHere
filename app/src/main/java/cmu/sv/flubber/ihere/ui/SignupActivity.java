@@ -2,8 +2,10 @@ package cmu.sv.flubber.ihere.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -108,6 +110,11 @@ public class SignupActivity extends AppCompatActivity {
         setResult(RESULT_OK, null);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("UserName", user.getUserName());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("userid", user.getUserId());
+        editor.putString("username", user.getUserName());
+        editor.commit();
         startActivity(intent);
 //        finish();
     }

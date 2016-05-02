@@ -234,7 +234,7 @@ public class DiscoveryActivity extends AppCompatActivity
             else
                 //use adapter for dispay
                 initAdapter();
-                discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList);
+                discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList, DiscoveryActivity.this);
 
         }
     }
@@ -242,7 +242,7 @@ public class DiscoveryActivity extends AppCompatActivity
     private void initAdapter(){
         viewArrayList = new ArrayList<>();
         int start = R.id.test1;
-        int end = R.id.test3;
+        int end = R.id.test5;
 
         for(int i = start; i <= end; i++){
             viewArrayList.add((TextView) findViewById(i));

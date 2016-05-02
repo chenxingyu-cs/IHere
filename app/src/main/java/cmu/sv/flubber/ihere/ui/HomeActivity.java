@@ -1,7 +1,9 @@
 package cmu.sv.flubber.ihere.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -45,7 +47,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         DBLocalConnector dbLocalConnector = new DBLocalConnector(HomeActivity.this);
-        //dbLocalConnector.init();
+        dbLocalConnector.init();
 
         //Show user name on menu header
         String name;
@@ -56,6 +58,9 @@ public class HomeActivity extends AppCompatActivity
         //check local db if there are existing user
         if(name == null){
             name = dbLocalConnector.getUserName();
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            name = settings.getString("username", "");
+
             if(name.equals("")){
                 Intent intent1 = new Intent(this,LoginActivity.class);
                 startActivity(intent1);
@@ -121,6 +126,12 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("userid", 0);
+            editor.putString("username", "");
+
+            editor.commit();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 

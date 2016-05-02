@@ -1,5 +1,7 @@
 package cmu.sv.flubber.ihere.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 import cmu.sv.flubber.ihere.entities.ITag;
 import cmu.sv.flubber.ihere.ui.DiscoveryActivity;
+import cmu.sv.flubber.ihere.ui.ItagDetailActivity;
 
 
 /**
@@ -25,11 +28,14 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
 
     private ArrayList<TextView> textlist;
     private ArrayList<ITag> iTagList ;
-
-    public DiscoverAdapter(ArrayList<TextView> textlist, ArrayList<ITag> iTagList){
+    private Context context;
+    public DiscoverAdapter(ArrayList<TextView> textlist, ArrayList<ITag> iTagList, Context context){
         this.textlist = textlist;
         this.iTagList = iTagList;
+        this.context = context;
     }
+
+    public static final String ARG_ITEM_ID = "item_id";
 
 
     public void show(){
@@ -59,12 +65,17 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         int i =0;
         for (int index : generated) {
             view = textlist.get(index);
-            view.setText(iTagList.get( i++).getContent());
+            view.setText(iTagList.get( i).getContent());
+            final int id = iTagList.get(i).getiTagId();
+            i++;
             final TextView finalview = view;
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
+                    Intent intent = new Intent(context, ItagDetailActivity.class);
+                    intent.putExtra(ARG_ITEM_ID , id);
                     finalview.setTextColor(Color.GREEN);
+                    context.startActivity(intent);
                     //Toast.makeText(DiscoveryActivity.this, "Discovering...", Toast.LENGTH_SHORT).show();
 
                 }
