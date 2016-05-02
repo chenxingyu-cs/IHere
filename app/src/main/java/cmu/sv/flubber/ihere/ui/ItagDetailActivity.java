@@ -166,6 +166,7 @@ public class ItagDetailActivity extends HomeActivity {
                 ((TextView) findViewById(R.id.detail_content)).setText(mItem.getContent().toString());
                 String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
                 ((TextView) findViewById(R.id.detail_location)).setText(loc);
+                ((TextView) findViewById(R.id.detail_location)).setText(String.valueOf(gps2m(mItem.getLatitude(), mItem.getLongitude())));
 
                 // Date on the top
                 if (mItem.getDate() != null)
@@ -260,7 +261,9 @@ public class ItagDetailActivity extends HomeActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private double gps2m(double lat_a, double lng_a, double lat_b, double lng_b) {
+    private double gps2m(double lat_b, double lng_b) {
+        double lat_a = latitude;
+        double lng_a = longitude;
         double pk = (float) (180/3.14169);
 
         double a1 = lat_a / pk;
