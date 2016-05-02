@@ -35,7 +35,7 @@ public class RemoteItag {
 
     }
 
-    public static ArrayList<ITag> discoverItags(String longitude, String latitude, String  direction)  {
+    public static ArrayList<ITag> discoverItags(double longitude, double latitude, String  direction)  {
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("longitude", String.valueOf(longitude));
         requestData.put("latitude", String.valueOf(latitude));
@@ -141,7 +141,7 @@ public class RemoteItag {
     }
 
     public static void main(String[] arg) {
-        ArrayList<ITag> itags = discoverItags("100","100","100");
+        ArrayList<ITag> itags = discoverItags(100,100,"100");
         System.out.print("cccc");
     }
 }

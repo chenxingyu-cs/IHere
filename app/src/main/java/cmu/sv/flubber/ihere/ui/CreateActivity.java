@@ -36,8 +36,8 @@ public class CreateActivity extends HomeActivity {
 
 
     LocationManager mLocationManager;
-    String latitude;
-    String longitude;
+    Double latitude;
+    Double longitude;
 
     ProgressDialog progressDialog;
 
@@ -74,8 +74,8 @@ public class CreateActivity extends HomeActivity {
             if (loc == null)
                 loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if (loc != null) {
-                latitude = String.valueOf(loc.getLatitude());
-                longitude = String.valueOf(loc.getLongitude());
+                latitude = loc.getLatitude();
+                longitude = loc.getLongitude();
             }
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
                     0, mLocationListener);
@@ -89,8 +89,8 @@ public class CreateActivity extends HomeActivity {
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            latitude = String.valueOf(location.getLatitude());
-            longitude = String.valueOf(location.getLongitude());
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
         }
 
         @Override
@@ -138,7 +138,7 @@ public class CreateActivity extends HomeActivity {
             int userid = settings.getInt("userid", -1);
             Calendar calander = Calendar.getInstance();
             Date date = calander.getTime();
-            ITag tag = new ITag(userid, strings[0], Float.parseFloat(longitude), date, Float.parseFloat(latitude), null);
+            ITag tag = new ITag(userid, strings[0], longitude, date, latitude, null);
             Boolean res = RemoteItag.createItag(tag);
             return res;
         }

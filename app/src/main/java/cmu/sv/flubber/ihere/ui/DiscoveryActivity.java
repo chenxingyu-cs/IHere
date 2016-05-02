@@ -41,8 +41,8 @@ public class DiscoveryActivity extends AppCompatActivity
     private SensorManager mSensorManager;
 
 
-    String latitude;
-    String longitude;
+    double latitude;
+    double longitude;
     float currentDegree;
 
 
@@ -69,22 +69,26 @@ public class DiscoveryActivity extends AppCompatActivity
 
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (loc == null)
-            loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (loc != null) {
-            latitude = String.valueOf(loc.getLatitude());
-            longitude = String.valueOf(loc.getLongitude());
-            String text  = "latitude: " + latitude + "\nlongitude: " + longitude;
-            tvLocation.setText(text);
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-                0, mLocationListener);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-                0, mLocationListener);
+        try {
+            Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc == null)
+                loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (loc != null) {
+                latitude = loc.getLatitude();
+                longitude = loc.getLongitude();
+                String text = "latitude: " + latitude + "\nlongitude: " + longitude;
+                tvLocation.setText(text);
+            }
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                    0, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                    0, mLocationListener);
 
-        //TODO need to test real time location
-        new DiscoverTask().execute(longitude, latitude, String.valueOf(currentDegree));
+            //TODO need to test real time location
+            new DiscoverTask().execute(String.valueOf(currentDegree));
+        } catch (SecurityException ex) {
+            ;
+        }
     }
 
     @Override
@@ -193,8 +197,8 @@ public class DiscoveryActivity extends AppCompatActivity
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            latitude = String.valueOf(location.getLatitude());
-            longitude = String.valueOf(location.getLongitude());
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             //Toast.makeText(DiscoveryActivity.this, "onLocationChanged",
               //      Toast.LENGTH_SHORT).show();
             String text  = "latitude: " + latitude + "\nlongitude: " + longitude;
@@ -223,7 +227,7 @@ public class DiscoveryActivity extends AppCompatActivity
     private class DiscoverTask extends AsyncTask< String, Integer, ArrayList<ITag>> {
         protected ArrayList<ITag> doInBackground(String... location) {
 
-            iTagArrayList = RemoteItag.discoverItags(location[0], location[1], location[2]);
+            iTagArrayList = RemoteItag.discoverItags(longitude, latitude, location[0]);
             return iTagArrayList;
         }
 
