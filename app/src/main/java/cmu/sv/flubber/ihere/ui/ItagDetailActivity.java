@@ -169,7 +169,7 @@ public class ItagDetailActivity extends HomeActivity {
 
                 // Date on the top
                 if (mItem.getDate() != null)
-                    ((TextView) findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
+                    ((TextView) findViewById(R.id.detail_time)).setText(mItem.getDate().toString()+ ",\t");
             }
         }
     }

@@ -74,7 +74,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
                 public void onClick(View v){
                     Intent intent = new Intent(context, ItagDetailActivity.class);
                     intent.putExtra(ARG_ITEM_ID , id);
-                    finalview.setTextColor(Color.GREEN);
+                    //finalview.setTextColor(Color.GREEN);
                     context.startActivity(intent);
                     //Toast.makeText(DiscoveryActivity.this, "Discovering...", Toast.LENGTH_SHORT).show();
 
