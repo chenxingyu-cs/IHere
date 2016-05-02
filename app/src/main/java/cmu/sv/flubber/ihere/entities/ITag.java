@@ -10,8 +10,8 @@ public class ITag {
     private int userId;
     private int iTagId;
     private String content;
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
     private Date date;
     private ArrayList<Comment> comments;
 
@@ -19,7 +19,7 @@ public class ITag {
         super();
     }
 
-    public ITag(int userId, String content, float longitude, Date date, float latitude, ArrayList<Comment> comments) {
+    public ITag(int userId, String content, double longitude, Date date, double latitude, ArrayList<Comment> comments) {
         this.userId = userId;
         this.content = content;
         this.longitude = longitude;
@@ -56,7 +56,7 @@ public class ITag {
         this.content = content;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -64,7 +64,7 @@ public class ITag {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
