@@ -8,8 +8,7 @@ import java.util.Date;
 public class Comment {
     private int commentId;
     private int iTagId;
-    private int sourceUserId;
-    private int targetUserId;
+    private int userId;
     private String content;
     private Date date;
 
@@ -17,10 +16,10 @@ public class Comment {
         super();
     }
 
-    public Comment(int iTagId, int sourceUserId, int targetUserId, String content, Date date) {
+    public Comment(int iTagId, int userId, String content, Date date) {
+        super();
         this.iTagId = iTagId;
-        this.sourceUserId = sourceUserId;
-        this.targetUserId = targetUserId;
+        this.userId = userId;
         this.content = content;
         this.date = date;
     }
@@ -41,20 +40,12 @@ public class Comment {
         this.iTagId = iTagId;
     }
 
-    public int getSourceUserId() {
-        return sourceUserId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setSourceUserId(int sourceUserId) {
-        this.sourceUserId = sourceUserId;
-    }
-
-    public int getTargetUserId() {
-        return targetUserId;
-    }
-
-    public void setTargetUserId(int targetUserId) {
-        this.targetUserId = targetUserId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getContent() {
@@ -72,4 +63,7 @@ public class Comment {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
+
 }

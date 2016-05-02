@@ -2,17 +2,22 @@ package cmu.sv.flubber.ihere.ui;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.adapter.CommentListAdapter;
+import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
 import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 
@@ -64,6 +69,7 @@ public class ItagDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getContent());
             }
+
         }
     }
 
@@ -93,6 +99,19 @@ public class ItagDetailFragment extends Fragment {
                 ((TextView) rootView.findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
         }
 
+
+
+        View recyclerView = rootView.findViewById(R.id.item_list);
+        assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);
+
         return rootView;
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        if (mItem.getComments() == null) {
+            mItem.setComments(new ArrayList<Comment>());
+        }
+        recyclerView.setAdapter(new CommentListAdapter(mItem.getComments()));
     }
 }
