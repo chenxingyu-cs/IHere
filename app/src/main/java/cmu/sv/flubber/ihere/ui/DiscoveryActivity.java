@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cmu.sv.flubber.ihere.R;
 import cmu.sv.flubber.ihere.adapter.DiscoverAdapter;
@@ -85,7 +86,6 @@ public class DiscoveryActivity extends AppCompatActivity
                     0, mLocationListener);
 
             //TODO need to test real time location
-            new DiscoverTask().execute(String.valueOf(currentDegree));
         } catch (SecurityException ex) {
             ;
         }
@@ -113,8 +113,14 @@ public class DiscoveryActivity extends AppCompatActivity
     public void onSnapClick(View v) {
         // TODO: click button to send location
         //mCamera.takePicture(this, null, null, this);
+        try {
+            new DiscoverTask().execute(String.valueOf(currentDegree)).get();
 
-        discoverAdapter.show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "Discovering...", Toast.LENGTH_SHORT).show();
     }
 
@@ -227,7 +233,7 @@ public class DiscoveryActivity extends AppCompatActivity
     private class DiscoverTask extends AsyncTask< String, Integer, ArrayList<ITag>> {
         protected ArrayList<ITag> doInBackground(String... location) {
 
-            iTagArrayList = RemoteItag.discoverItags(longitude, latitude, location[0]);
+            iTagArrayList = RemoteItag.discoverItags(longitude, latitude, currentDegree);
             return iTagArrayList;
         }
 
@@ -235,10 +241,12 @@ public class DiscoveryActivity extends AppCompatActivity
             if(iTagArrayListag == null || iTagArrayListag.size() == 0)
                 ;
 
-            else
+            else {
                 //use adapter for dispay
                 initAdapter();
                 discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList, DiscoveryActivity.this);
+                discoverAdapter.show();
+            }
 
         }
     }
