@@ -203,20 +203,20 @@ public class DiscoveryActivity extends AppCompatActivity
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Toast.makeText(DiscoveryActivity.this, provider + "'s status changed to "+status +"!",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DiscoveryActivity.this, provider + "'s status changed to "+status +"!",
+            //        Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " enabled!",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " enabled!",
+            //        Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " disabled!",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DiscoveryActivity.this, "Provider " + provider + " disabled!",
+            //        Toast.LENGTH_SHORT).show();
         }
     };
 
