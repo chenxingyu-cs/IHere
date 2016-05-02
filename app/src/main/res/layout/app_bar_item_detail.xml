@@ -22,14 +22,6 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/detail_top"
-                android:paddingTop="60dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:text="detail of the tag"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"
@@ -67,14 +59,23 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip" >
                 <TextView
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/detail_time"
+                    />
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip">
+                <TextView
+                    android:textColor="@color/colorAccent"
                     android:id="@+id/detail_location"/>
             </TableRow>
-
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/colorAccent"/>
 
 
             <TableRow
@@ -82,7 +83,10 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip" >
                 <TextView
-                    android:text="Comments"/>
+                    android:text="Comments"
+                    android:background="@color/colorAccent"
+                    android:textColor="#FFFFFF"
+                    />
             </TableRow>
 
             <FrameLayout
