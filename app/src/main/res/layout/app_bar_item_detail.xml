@@ -70,38 +70,14 @@
             </TableRow>
 
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
-                <TextView
-                    android:text="comment1"/>
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            </TableRow>
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
-                <TextView
-                    android:text="comment1"/>
-
-            </TableRow>
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
-                <TextView
-                    android:text="comment1"/>
-
-            </TableRow>
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
-                <TextView
-                    android:text="comment1"/>
-
-            </TableRow>
+                <include layout="@layout/comment_list" />
+            </FrameLayout>
 
 
         </TableLayout>

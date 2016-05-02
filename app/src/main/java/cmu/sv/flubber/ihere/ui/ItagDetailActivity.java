@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.View;
@@ -23,12 +25,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cmu.sv.flubber.ihere.R;
+import cmu.sv.flubber.ihere.adapter.CommentListAdapter;
 import cmu.sv.flubber.ihere.entities.Comment;
 import cmu.sv.flubber.ihere.entities.ITag;
 import cmu.sv.flubber.ihere.ws.remote.RemoteComment;
@@ -44,6 +48,8 @@ public class ItagDetailActivity extends HomeActivity {
 
     private ITag mItem;
     private String m_Text = "";
+    View recyclerView;
+    CommentListAdapter clAdaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +84,25 @@ public class ItagDetailActivity extends HomeActivity {
 
         int itagid = getIntent().getExtras().getInt(ItagDetailFragment.ARG_ITEM_ID);
         try {
-            new DetailTask().execute(String.valueOf(itagid)).get();
+            mItem = new DetailTask().execute(String.valueOf(itagid)).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
+        recyclerView = findViewById(R.id.item_list);
+        assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);
+
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        if (mItem.getComments() == null) {
+            mItem.setComments(new ArrayList<Comment>());
+        }
+        clAdaptor = new CommentListAdapter(mItem.getComments());
+        recyclerView.setAdapter(clAdaptor);
     }
 
     private class DetailTask extends AsyncTask<String, Integer, ITag> {
@@ -114,7 +132,7 @@ public class ItagDetailActivity extends HomeActivity {
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
         // Set up the buttons
@@ -123,8 +141,16 @@ public class ItagDetailActivity extends HomeActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // TODO: add comment here
                 m_Text = input.getText().toString();
-                Toast.makeText(getBaseContext(), m_Text, Toast.LENGTH_LONG).show();
-                new CommentTask().execute(m_Text);
+                try {
+                    new CommentTask().execute(m_Text).get();
+                    mItem = new DetailTask().execute(String.valueOf(mItem.getiTagId())).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                clAdaptor.setmValues(mItem.getComments());
+                clAdaptor.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -143,7 +169,7 @@ public class ItagDetailActivity extends HomeActivity {
             int userid = settings.getInt("userid", -1);
             Calendar calander = Calendar.getInstance();
             Date date = calander.getTime();
-            Comment c = new Comment(mItem.getiTagId(), userid, mItem.getUserId(), strings[0], date);
+            Comment c = new Comment(mItem.getiTagId(), userid, strings[0], date);
             return RemoteComment.addComment(c);
         }
 

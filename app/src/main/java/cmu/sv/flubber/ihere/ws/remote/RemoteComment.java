@@ -5,6 +5,7 @@ package cmu.sv.flubber.ihere.ws.remote;
  */
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class RemoteComment {
     }
 
     public static boolean addComment(Comment comment){
-        final Gson gson = new Gson();
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         String s = gson.toJson(comment);
         HashMap<String, String> requestData  = new HashMap<>();
         requestData.put("comment", s);
