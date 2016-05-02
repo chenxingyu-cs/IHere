@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip" >
             <TextView
+                android:textSize="20sp"
                 android:id="@+id/detail_content"/>
             </TableRow>
 
@@ -69,6 +70,20 @@
                     android:id="@+id/detail_location"/>
             </TableRow>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
+                <TextView
+                    android:text="Comments"/>
+            </TableRow>
 
             <FrameLayout
                 android:id="@+id/frameLayout"
