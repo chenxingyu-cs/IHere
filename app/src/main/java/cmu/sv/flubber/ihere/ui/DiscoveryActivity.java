@@ -84,7 +84,7 @@ public class DiscoveryActivity extends AppCompatActivity
                 0, mLocationListener);
 
         //TODO need to test real time location
-        new DiscoverTask().execute("100","100","100");
+        new DiscoverTask().execute(longitude, latitude, String.valueOf(currentDegree));
     }
 
     @Override
