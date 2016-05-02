@@ -3,6 +3,9 @@ package cmu.sv.flubber.ihere.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.FloatMath;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
@@ -50,6 +54,11 @@ public class ItagDetailActivity extends HomeActivity {
     private String m_Text = "";
     View recyclerView;
     CommentListAdapter clAdaptor;
+
+
+    LocationManager mLocationManager;
+    Double latitude;
+    Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +104,48 @@ public class ItagDetailActivity extends HomeActivity {
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
+        try {
+
+            mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc == null)
+                loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (loc != null) {
+                latitude = loc.getLatitude();
+                longitude = loc.getLongitude();
+            }
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                    0, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                    0, mLocationListener);
+        } catch (SecurityException ex) {
+            Toast.makeText(getBaseContext(), "Cannot get location info!", Toast.LENGTH_LONG).show();
+        }
+
     }
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         if (mItem.getComments() == null) {
@@ -208,5 +258,21 @@ public class ItagDetailActivity extends HomeActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private double gps2m(double lat_a, double lng_a, double lat_b, double lng_b) {
+        double pk = (float) (180/3.14169);
+
+        double a1 = lat_a / pk;
+        double a2 = lng_a / pk;
+        double b1 = lat_b / pk;
+        double b2 = lng_b / pk;
+
+        double t1 = Math.cos(a1)*Math.cos(a2)*Math.cos(b1)*Math.cos(b2);
+        double t2 = Math.cos(a1)*Math.sin(a2)*Math.cos(b1)*Math.sin(b2);
+        double t3 = Math.sin(a1)* Math.sin(b1);
+        double tt = Math.acos(t1 + t2 + t3);
+
+        return 6366000*tt;
     }
 }
