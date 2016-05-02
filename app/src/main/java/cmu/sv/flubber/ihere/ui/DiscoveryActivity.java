@@ -69,6 +69,11 @@ public class DiscoveryActivity extends AppCompatActivity
         tvLocation = (TextView) findViewById(R.id.locationText);
 
 
+        initAdapter();
+        iTagArrayList = new ArrayList<ITag>();
+        discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList, DiscoveryActivity.this);
+
+
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         try {
             Location loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -238,13 +243,17 @@ public class DiscoveryActivity extends AppCompatActivity
         }
 
         protected void onPostExecute(ArrayList<ITag> iTagArrayListag) {
+
+            for(TextView v : viewArrayList){
+                v.setText("");
+            }
             if(iTagArrayListag == null || iTagArrayListag.size() == 0)
                 ;
 
             else {
                 //use adapter for dispay
-                initAdapter();
-                discoverAdapter = new DiscoverAdapter(viewArrayList, iTagArrayList, DiscoveryActivity.this);
+                discoverAdapter.setITagList(iTagArrayList);
+                discoverAdapter.notifyDataSetChanged();
                 discoverAdapter.show();
             }
 
