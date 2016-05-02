@@ -45,7 +45,8 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
             v.setText("");
         }
 
-
+        if(iTagList == null || iTagList.size() == 0)
+            Toast.makeText(context, "No iTags found around here!", Toast.LENGTH_SHORT).show();
 
 
         //get a random list positions for diaplay
