@@ -13,6 +13,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -33,6 +34,15 @@ public class DiscoverAdapter extends RecyclerView.Adapter{
         this.textlist = textlist;
         this.iTagList = iTagList;
         this.context = context;
+    }
+
+
+
+    public void setITagList(List<ITag> items) {
+        this.iTagList.clear();
+        for (ITag i :items ) {
+            this.iTagList.add(i);
+        }
     }
 
     public static final String ARG_ITEM_ID = "item_id";
