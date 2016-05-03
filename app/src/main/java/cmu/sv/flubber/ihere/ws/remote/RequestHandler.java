@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class RequestHandler {
 
-    private static final String SERVER = "http://172.29.93.165:8080";
+    private static final String SERVER = "http://ec2-54-84-210-68.compute-1.amazonaws.com:8080";
     public static final int GET_USER_INFO = 1;
     public static final int  CREATE_NEW_USER = 2;
     public static final int UPDATE_USER_INFO = 3;

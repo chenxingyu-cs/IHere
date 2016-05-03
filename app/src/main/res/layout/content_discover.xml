@@ -45,6 +45,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/test1"
         android:textColor="#FFFFFF"
+        android:background="#CCFF0000"
         />
 
     <TextView
@@ -54,6 +55,7 @@
         android:layout_marginTop="88dp"
         android:layout_marginLeft="40dp"
         android:textColor="#FFFFFF"
+        android:background="#CCFF0000"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -61,7 +63,9 @@
         android:id="@+id/test3"
         android:layout_marginTop="33dp"
         android:layout_marginLeft="150dp"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:background="#CCFF0000"/>
+
 
      <TextView
         android:layout_width="wrap_content"
@@ -70,6 +74,7 @@
         android:layout_marginTop="98dp"
         android:layout_marginLeft= "307dp"
         android:textColor="#FFFFFF"
+         android:background="#CCFF0000"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -78,7 +83,8 @@
         android:layout_marginTop="38dp"
         android:layout_marginLeft = "207dp"
         android:textColor="#FFFFFF"
-        />       />
+        android:background="#CCFF0000"
+        />
     </LinearLayout>
 
     <TextView
