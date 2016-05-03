@@ -12,6 +12,7 @@ public class ITag {
     private String content;
     private double longitude;
     private double latitude;
+    private String userName;
     private Date date;
     private ArrayList<Comment> comments;
 
@@ -19,19 +20,23 @@ public class ITag {
         super();
     }
 
-    public ITag(int userId, String content, double longitude, Date date, double latitude, ArrayList<Comment> comments) {
+    public ITag(int userId, String content, double longitude, Date date, double latitude, ArrayList<Comment> comments, String name) {
         this.userId = userId;
         this.content = content;
         this.longitude = longitude;
         this.date = date;
         this.latitude = latitude;
         this.comments = comments;
+        this.userName = name;
     }
 
     public ITag(String content){
         this.content =  content;
 
     }
+
+    public String getUserName(){return userName;}
+
     public int getUserId() {
         return userId;
     }

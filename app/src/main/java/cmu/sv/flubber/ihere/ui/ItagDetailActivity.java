@@ -29,6 +29,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -169,9 +171,12 @@ public class ItagDetailActivity extends HomeActivity {
                 ((TextView) findViewById(R.id.detail_location)).setText(String.valueOf(gps2m(mItem.getLatitude(), mItem.getLongitude())));
 
                 // Date on the top
-                if (mItem.getDate() != null)
-                    setTitle(mItem.getDate().toString());
-                    //((TextView) findViewById(R.id.detail_time)).setText(mItem.getDate().toString()+ ",\t");
+                if (mItem.getDate() != null) {
+
+                    Date myDate = mItem.getDate();
+                    String date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(myDate);
+                    setTitle(date);
+                }  //((TextView) findViewById(R.id.detail_time)).setText(mItem.getDate().toString()+ ",\t");
             }
         }
     }
@@ -221,7 +226,7 @@ public class ItagDetailActivity extends HomeActivity {
             int userid = settings.getInt("userid", -1);
             Calendar calander = Calendar.getInstance();
             Date date = calander.getTime();
-            Comment c = new Comment(mItem.getiTagId(), userid, strings[0], date);
+            Comment c = new Comment(mItem.getiTagId(), userid, strings[0], date, settings.getString("username", ""));
             return RemoteComment.addComment(c);
         }
 

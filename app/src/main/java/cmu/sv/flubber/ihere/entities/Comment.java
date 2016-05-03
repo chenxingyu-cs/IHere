@@ -11,17 +11,19 @@ public class Comment {
     private int userId;
     private String content;
     private Date date;
+    private String userName;
 
     public Comment() {
         super();
     }
 
-    public Comment(int iTagId, int userId, String content, Date date) {
+    public Comment(int iTagId, int userId, String content, Date date, String name) {
         super();
         this.iTagId = iTagId;
         this.userId = userId;
         this.content = content;
         this.date = date;
+        this.userName= name;
     }
 
     public int getCommentId() {

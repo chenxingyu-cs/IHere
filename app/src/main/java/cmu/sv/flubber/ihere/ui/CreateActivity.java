@@ -138,7 +138,7 @@ public class CreateActivity extends HomeActivity {
             int userid = settings.getInt("userid", -1);
             Calendar calander = Calendar.getInstance();
             Date date = calander.getTime();
-            ITag tag = new ITag(userid, strings[0], longitude, date, latitude, null);
+            ITag tag = new ITag(userid, strings[0], longitude, date, latitude, null, settings.getString("username", ""));
             Boolean res = RemoteItag.createItag(tag);
             return res;
         }

@@ -108,11 +108,6 @@ public class HistoryActivity extends HomeActivity {
         }
     }
 
-    private static ITag createDummyItem(int position) {
-        ITag tag = new ITag(1,"Content", 12, Calendar.getInstance().getTime(), 21, new ArrayList<Comment>());
-        tag.setiTagId(position);
-        return tag;
-    }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(HistoryContent.ITEMS));
@@ -137,8 +132,13 @@ public class HistoryActivity extends HomeActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(Integer.toString(mValues.get(position).getiTagId()));
-            holder.mContentView.setText(mValues.get(position).getContent());
+            String date = mValues.get(position).getDate().toString().substring(4, 10);
+            holder.mIdView.setText(mValues.get(position).getDate().toString());
+            String abv = mValues.get(position).getContent();
+            if(abv.length() > 20) {
+                abv = abv.substring(0, 20) + "...";
+            }
+            holder.mContentView.setText(abv);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
