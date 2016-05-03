@@ -170,6 +170,7 @@ public class ItagDetailActivity extends HomeActivity {
                 ((TextView) findViewById(R.id.detail_location)).setText(loc);
                 ((TextView) findViewById(R.id.detail_location)).setText(String.valueOf(gps2m(mItem.getLatitude(), mItem.getLongitude())));
 
+                ((TextView) findViewById(R.id.detail_username)).setText("from : " + mItem.getUserName());
                 // Date on the top
                 if (mItem.getDate() != null) {
 
