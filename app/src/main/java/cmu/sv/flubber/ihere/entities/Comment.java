@@ -26,6 +26,11 @@ public class Comment {
         this.userName= name;
     }
 
+
+    public String getUserName() {
+        return userName;
+    }
+
     public int getCommentId() {
         return commentId;
     }

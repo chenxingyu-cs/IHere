@@ -13,31 +13,65 @@
         android:layout_height="match_parent">
 
 
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/detail_content"/>
+        </TableRow>
 
-    <TextView
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:id="@+id/detail_top"
-android:paddingTop="60dp"
-android:paddingRight="10dp"
-android:text="detail of the tag"/>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/detail_time"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/detail_username"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/detail_Distance"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/detail_location"/>
+        </TableRow>
 
-<TableRow
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dip" >
-    <TextView
-        android:id="@+id/detail_content"/>
-</TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorAccent"/>
 
-<TableRow
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dip" >
-    <TextView
-        android:id="@+id/detail_location"/>
-</TableRow>
 
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:text="Comments"
+                android:background="@color/colorAccent"
+                android:textColor="#FFFFFF"
+                />
+        </TableRow>
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -49,6 +83,15 @@ android:text="detail of the tag"/>
         </FrameLayout>
 
 
-</TableLayout>
+    </TableLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/stat_notify_chat"
+        app:layout_anchor="@+id/item_detail_container"
+        app:layout_anchorGravity="top|end" />
 
-    </LinearLayout>
+</LinearLayout>

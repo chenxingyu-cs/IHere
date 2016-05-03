@@ -168,10 +168,9 @@ public class ItagDetailActivity extends HomeActivity {
                 ((TextView) findViewById(R.id.detail_content)).setText(mItem.getContent().toString());
                 String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
                 ((TextView) findViewById(R.id.detail_location)).setText(loc);
-                String dis = String.valueOf((int)(gps2m(mItem.getLatitude(), mItem.getLongitude()))) + " meters from here.";
-                ((TextView) findViewById(R.id.detail_location)).setText(dis);
+                ((TextView) findViewById(R.id.detail_Distance)).setText("Distance from here: " + (int)(gps2m(mItem.getLatitude(), mItem.getLongitude())) + "meters.");
 
-                ((TextView) findViewById(R.id.detail_username)).setText("from : " + mItem.getUserName());
+                ((TextView) findViewById(R.id.detail_username)).setText("From : " + mItem.getUserName());
                 // Date on the top
                 if (mItem.getDate() != null) {
 
