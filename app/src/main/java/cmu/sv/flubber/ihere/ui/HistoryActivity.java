@@ -55,7 +55,7 @@ public class HistoryActivity extends HomeActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        //toolbar.setTitle(getTitle());
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();

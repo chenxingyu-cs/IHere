@@ -19,7 +19,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_item_list">ITags</string>
+    <string name="title_item_list">History iTags</string>
+    <string name="title_create">Create new iTag</string>
     <string name="title_item_detail">Detail</string>
     <string name="title_activity_discovery">DiscoveryActivity</string>
     <string name="title_activity_preview">PreviewActivity</string>

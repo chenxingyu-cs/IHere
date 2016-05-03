@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import cmu.sv.flubber.ihere.R;
@@ -95,7 +97,12 @@ public class ItagDetailFragment extends Fragment {
             String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
             ((TextView) rootView.findViewById(R.id.detail_location)).setText(loc);
 
+            if (mItem.getDate() != null) {
 
+                Date myDate = mItem.getDate();
+                String date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(myDate);
+                //rootView.setTitle(date);
+            }
 
             //((TextView) rootView.findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
         }

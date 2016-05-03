@@ -14,7 +14,6 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="iHere"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -38,7 +37,6 @@
         <activity
             android:name=".ui.ItagDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".ui.HistoryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -49,12 +47,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.CreateActivity"
+            android:label="@string/title_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.DiscoveryActivity"
             android:label="@string/title_activity_preview"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver android:name=".ui.DiscoveryActivity$MyReceiver">
 
