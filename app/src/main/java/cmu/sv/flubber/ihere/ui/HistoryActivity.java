@@ -25,8 +25,10 @@ import cmu.sv.flubber.ihere.entities.User;
 import cmu.sv.flubber.ihere.ws.remote.RemoteItag;
 import cmu.sv.flubber.ihere.ws.remote.RemoteUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -132,8 +134,8 @@ public class HistoryActivity extends HomeActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            String date = mValues.get(position).getDate().toString().substring(4, 10);
-            holder.mIdView.setText(mValues.get(position).getDate().toString());
+            String date = new SimpleDateFormat("MM/dd/yyyy").format(mValues.get(position).getDate());
+            holder.mIdView.setText(date);
             String abv = mValues.get(position).getContent();
             if(abv.length() > 20) {
                 abv = abv.substring(0, 20) + "...";

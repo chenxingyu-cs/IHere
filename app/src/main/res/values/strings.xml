@@ -23,4 +23,5 @@
     <string name="title_item_detail">ITag Detail</string>
     <string name="title_activity_discovery">DiscoveryActivity</string>
     <string name="title_activity_preview">PreviewActivity</string>
+    <string name="title_goto">hh</string>
 </resources>

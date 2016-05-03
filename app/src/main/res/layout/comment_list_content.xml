@@ -3,12 +3,30 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewItem"
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Item name here..."
-        android:textSize="15dp" />
+        android:layout_height="60dp"
+        >
+        <TextView
+            android:id="@+id/textUserName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Item name here..."
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Item name here..."
+            android:textSize="15sp" />
+
+    </TableRow>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+            />
 
 </LinearLayout>

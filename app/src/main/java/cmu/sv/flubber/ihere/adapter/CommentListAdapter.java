@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import cmu.sv.flubber.ihere.R;
@@ -44,6 +46,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     public void onBindViewHolder(CommentListAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mText.setText(mValues.get(position).getContent());
+        holder.mUser.setText(mValues.get(position).getUserName());
     }
 
     @Override
@@ -55,10 +58,12 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         public final View mView;
         public final TextView mText;
         public Comment mItem;
+        public final TextView mUser;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            mUser = (TextView) view.findViewById(R.id.textUserName);
             mText = (TextView) view.findViewById(R.id.textViewItem);
         }
 

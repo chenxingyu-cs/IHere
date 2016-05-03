@@ -1,6 +1,7 @@
 package cmu.sv.flubber.ihere.ui;
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -38,7 +39,6 @@ public class ItagDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private ITag mItem;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -49,6 +49,7 @@ public class ItagDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
@@ -94,9 +95,9 @@ public class ItagDetailFragment extends Fragment {
             String loc = "Longitude: " + mItem.getLongitude() + ", Latitude: " + mItem.getLatitude();
             ((TextView) rootView.findViewById(R.id.detail_location)).setText(loc);
 
-            // Date on the top
-            if (mItem.getDate() != null)
-                ((TextView) rootView.findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
+
+
+            //((TextView) rootView.findViewById(R.id.detail_top)).setText(mItem.getDate().toString());
         }
 
 
@@ -114,4 +115,5 @@ public class ItagDetailFragment extends Fragment {
         }
         recyclerView.setAdapter(new CommentListAdapter(mItem.getComments()));
     }
+
 }
