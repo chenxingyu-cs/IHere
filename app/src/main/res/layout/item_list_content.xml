@@ -28,12 +28,7 @@
                 android:textAppearance="?attr/textAppearanceListItem" />
 
 
-            <ImageView
-                android:layout_toLeftOf="@+id/content"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:id="@+id/gotodetail"
-                android:src="@drawable/arrowright"
+
 
                  />
 
@@ -45,7 +40,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/colorAccent"/>
 
 </LinearLayout>
